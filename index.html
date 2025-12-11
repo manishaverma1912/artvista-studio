@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ArtVista Studio - Painting & Sketches That Capture Emotion</title>
     <meta name="description" content="Hand-crafted animal portraits, nature-inspired paintings, and fine-detail sketches by a US-based artist.">
+    
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         
@@ -12,9 +13,18 @@
             --cream: #F5F1E8;
             --graphite: #2C2C2C;
             --gold: #C9A961;
+            --gold-end: #E6C88B;
             --sage: #A8B5A0;
             --rose: #D4B5B0;
             --white: #FFFFFF;
+            --bg-light: #FBF9F7;
+            --bg-cream: #F6F2EA;
+            --text-muted: #6f6b6a;
+            --shadow-sm: 0 4px 12px rgba(0,0,0,0.06);
+            --shadow-md: 0 8px 24px rgba(0,0,0,0.08);
+            --shadow-lg: 0 16px 48px rgba(0,0,0,0.12);
+            --radius: 16px;
+            --transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
         }
         
         html { scroll-behavior: smooth; }
@@ -30,7 +40,7 @@
         h1, h2, h3 { font-family: 'Palatino', 'Georgia', serif; font-weight: 400; }
         .container { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
         
-        /* Enhanced Header */
+        /* Header */
         header {
             position: fixed;
             left: 0;
@@ -72,7 +82,7 @@
             width: 44px;
             height: 44px;
             border-radius: 50%;
-            background: linear-gradient(135deg, var(--gold), #E6C88B);
+            background: linear-gradient(135deg, var(--gold), var(--gold-end));
             display: flex;
             align-items: center;
             justify-content: center;
@@ -103,11 +113,11 @@
         
         nav a.btn-ghost {
             border: 1px solid rgba(0,0,0,0.1);
-            background: linear-gradient(90deg, var(--gold), #E6C88B);
+            background: linear-gradient(90deg, var(--gold), var(--gold-end));
             color: white;
         }
         
-        /* Hero Section with Parallax */
+        /* Hero */
         .hero {
             min-height: 100vh;
             display: flex;
@@ -183,7 +193,7 @@
         .lead {
             margin-top: 20px;
             font-size: clamp(1rem, 2.5vw, 1.3rem);
-            color: var(--muted);
+            color: var(--text-muted);
             max-width: 760px;
             margin-left: auto;
             margin-right: auto;
@@ -210,13 +220,13 @@
             font-weight: 700;
             text-decoration: none;
             cursor: pointer;
-            transition: all 0.3s ease;
+            transition: var(--transition);
             border: none;
             font-size: 1rem;
         }
         
         .btn-primary {
-            background: linear-gradient(90deg, var(--gold), #E6C88B);
+            background: linear-gradient(90deg, var(--gold), var(--gold-end));
             color: #fff;
             box-shadow: 0 8px 25px rgba(201, 169, 97, 0.3);
         }
@@ -238,7 +248,6 @@
             transform: translateY(-4px);
         }
         
-        /* Floating Stack Cards */
         .hero-stack {
             position: absolute;
             right: 8vw;
@@ -272,7 +281,7 @@
             object-fit: cover;
         }
         
-        /* Scroll Reveal Sections */
+        /* Sections */
         section {
             padding: 100px 0;
             position: relative;
@@ -307,7 +316,7 @@
             transform: translateX(-50%);
             width: 80px;
             height: 4px;
-            background: linear-gradient(90deg, var(--gold), #E6C88B);
+            background: linear-gradient(90deg, var(--gold), var(--gold-end));
             border-radius: 2px;
         }
         
@@ -321,7 +330,7 @@
             margin-right: auto;
         }
         
-        /* About Section */
+        /* About */
         .about-content {
             max-width: 800px;
             margin: 0 auto;
@@ -346,72 +355,538 @@
             transition-delay: 0.2s;
         }
         
-        /* Gallery Cards with Stagger Animation */
+        /* Gallery Section Styles */
+        #artGallery {
+            padding: 80px 20px;
+            background: linear-gradient(180deg, var(--bg-cream), var(--bg-light));
+        }
+        
+        .gallery-header {
+            text-align: center;
+            margin-bottom: 48px;
+        }
+        
+        .gallery-title {
+            font-size: clamp(2.5rem, 5vw, 3.5rem);
+            font-weight: 400;
+            color: var(--graphite);
+            margin: 0 0 16px;
+            background: linear-gradient(135deg, var(--gold), var(--gold-end));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .gallery-divider {
+            width: 100px;
+            height: 4px;
+            background: linear-gradient(90deg, var(--gold), var(--gold-end));
+            margin: 0 auto;
+            border-radius: 2px;
+        }
+        
+        /* Featured Cards */
+        .featured-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 32px;
+            margin: 60px 0;
+        }
+        
+        .featured-card {
+            position: relative;
+            height: 400px;
+            border-radius: var(--radius);
+            overflow: hidden;
+            box-shadow: var(--shadow-md);
+            cursor: pointer;
+            transition: var(--transition);
+        }
+        
+        .featured-card:hover {
+            transform: translateY(-8px) scale(1.02);
+            box-shadow: var(--shadow-lg);
+        }
+        
+        .featured-card::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(180deg, transparent 40%, rgba(0,0,0,0.7));
+            z-index: 1;
+        }
+        
+        .featured-bg {
+            width: 100%;
+            height: 100%;
+            transition: transform 0.6s ease;
+        }
+        
+        .featured-card:hover .featured-bg {
+            transform: scale(1.1);
+        }
+        
+        .featured-content {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            padding: 32px;
+            z-index: 2;
+            text-align: center;
+        }
+        
+        .featured-title {
+            font-size: 2rem;
+            color: var(--white);
+            margin: 0 0 16px;
+            font-weight: 400;
+        }
+        
+        .featured-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 12px 32px;
+            background: linear-gradient(90deg, var(--gold), var(--gold-end));
+            color: var(--white);
+            border: none;
+            border-radius: 999px;
+            font-size: 1rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: var(--transition);
+            box-shadow: 0 4px 16px rgba(201, 169, 97, 0.4);
+        }
+        
+        .featured-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(201, 169, 97, 0.5);
+        }
+        
+        /* Category Tabs */
+        .category-tabs {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            justify-content: center;
+            margin: 48px 0;
+        }
+        
+        .category-chip {
+            padding: 12px 24px;
+            border-radius: 999px;
+            border: 2px solid rgba(0,0,0,0.08);
+            background: var(--white);
+            color: var(--text-muted);
+            font-weight: 700;
+            font-size: 0.95rem;
+            cursor: pointer;
+            transition: var(--transition);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .category-chip::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(90deg, var(--gold), var(--gold-end));
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        
+        .category-chip span {
+            position: relative;
+            z-index: 1;
+        }
+        
+        .category-chip:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-sm);
+        }
+        
+        .category-chip.active {
+            border-color: var(--gold);
+        }
+        
+        .category-chip.active::before {
+            opacity: 1;
+        }
+        
+        .category-chip.active span {
+            color: var(--white);
+        }
+        
+        /* Gallery Grid */
         .gallery-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 40px;
-            margin-top: 60px;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 32px;
+            margin-top: 48px;
         }
         
         .gallery-card {
             background: var(--white);
-            border-radius: 20px;
+            border-radius: var(--radius);
             overflow: hidden;
-            box-shadow: 0 10px 40px rgba(0,0,0,0.08);
-            transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-            cursor: pointer;
+            box-shadow: var(--shadow-sm);
+            transition: var(--transition);
             opacity: 0;
-            transform: translateY(30px) scale(0.95);
+            transform: translateY(30px);
         }
         
-        section.visible .gallery-card {
+        .gallery-card.visible {
             opacity: 1;
-            transform: translateY(0) scale(1);
+            transform: translateY(0);
         }
-        
-        section.visible .gallery-card:nth-child(1) { transition-delay: 0.1s; }
-        section.visible .gallery-card:nth-child(2) { transition-delay: 0.2s; }
-        section.visible .gallery-card:nth-child(3) { transition-delay: 0.3s; }
         
         .gallery-card:hover {
-            transform: translateY(-15px) scale(1.02);
-            box-shadow: 0 20px 60px rgba(0,0,0,0.15);
+            transform: translateY(-8px);
+            box-shadow: var(--shadow-lg);
         }
         
-        .gallery-card-image {
+        .card-image-wrapper {
+            position: relative;
+            height: 320px;
+            overflow: hidden;
+            background: linear-gradient(135deg, rgba(168,181,160,0.1), rgba(212,181,176,0.1));
+        }
+        
+        .card-image {
             width: 100%;
-            height: 280px;
-            background: linear-gradient(135deg, var(--sage), var(--rose));
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 4rem;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.6s ease;
+        }
+        
+        .gallery-card:hover .card-image {
+            transform: scale(1.08);
+        }
+        
+        .card-badge {
+            position: absolute;
+            top: 16px;
+            left: 16px;
+            padding: 6px 14px;
+            background: linear-gradient(90deg, var(--gold), var(--gold-end));
             color: var(--white);
-            transition: transform 0.4s ease;
+            border-radius: 999px;
+            font-size: 0.85rem;
+            font-weight: 700;
+            z-index: 2;
+            box-shadow: 0 4px 12px rgba(201, 169, 97, 0.3);
         }
         
-        .gallery-card:hover .gallery-card-image {
-            transform: scale(1.1);
+        .card-content {
+            padding: 24px;
         }
         
-        .gallery-card-content {
-            padding: 30px;
-            text-align: center;
-        }
-        
-        .gallery-card h3 {
-            font-size: 1.8rem;
-            margin-bottom: 15px;
+        .card-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin: 0 0 8px;
             color: var(--graphite);
         }
         
-        .gallery-card p {
-            color: #666;
+        .card-description {
             font-size: 1rem;
+            color: var(--text-muted);
+            margin: 0 0 16px;
+            line-height: 1.5;
         }
         
-        /* Features Grid */
+        .card-footer {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+            margin-top: 20px;
+        }
+        
+        .card-price {
+            font-size: 1.8rem;
+            font-weight: 900;
+            color: var(--gold);
+        }
+        
+        .card-actions {
+            display: flex;
+            gap: 8px;
+        }
+        
+        .card-btn {
+            padding: 10px 18px;
+            border-radius: 12px;
+            font-size: 0.9rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: var(--transition);
+            border: none;
+            white-space: nowrap;
+        }
+        
+        .btn-add {
+            background: var(--white);
+            border: 2px solid rgba(0,0,0,0.08);
+            color: var(--graphite);
+        }
+        
+        .btn-add:hover {
+            background: var(--bg-cream);
+            transform: translateY(-2px);
+        }
+        
+        .btn-preview {
+            background: linear-gradient(90deg, var(--gold), var(--gold-end));
+            color: var(--white);
+            box-shadow: 0 4px 12px rgba(201, 169, 97, 0.3);
+        }
+        
+        .btn-preview:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(201, 169, 97, 0.4);
+        }
+        
+        /* Modal */
+        .modal-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.75);
+            backdrop-filter: blur(8px);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 9999;
+            padding: 20px;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        
+        .modal-overlay.active {
+            display: flex;
+            opacity: 1;
+        }
+        
+        .modal-content {
+            background: var(--white);
+            border-radius: var(--radius);
+            max-width: 1100px;
+            width: 100%;
+            max-height: 90vh;
+            overflow: hidden;
+            display: grid;
+            grid-template-columns: 1.5fr 1fr;
+            box-shadow: 0 24px 80px rgba(0,0,0,0.3);
+            transform: scale(0.9);
+            transition: transform 0.3s ease;
+        }
+        
+        .modal-overlay.active .modal-content {
+            transform: scale(1);
+        }
+        
+        .modal-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .modal-details {
+            padding: 40px;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            overflow-y: auto;
+        }
+        
+        .modal-badge {
+            display: inline-block;
+            padding: 6px 14px;
+            background: linear-gradient(90deg, var(--gold), var(--gold-end));
+            color: var(--white);
+            border-radius: 999px;
+            font-size: 0.85rem;
+            font-weight: 700;
+            width: fit-content;
+        }
+        
+        .modal-title {
+            font-size: 2rem;
+            margin: 0;
+            color: var(--graphite);
+        }
+        
+        .modal-description {
+            font-size: 1.1rem;
+            color: var(--text-muted);
+            line-height: 1.6;
+        }
+        
+        .modal-price {
+            font-size: 2.5rem;
+            font-weight: 900;
+            color: var(--gold);
+        }
+        
+        .modal-actions {
+            display: flex;
+            gap: 12px;
+            margin-top: auto;
+        }
+        
+        .modal-btn {
+            flex: 1;
+            padding: 16px;
+            border-radius: 12px;
+            font-size: 1rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: var(--transition);
+            border: none;
+        }
+        
+        .modal-btn-add {
+            background: var(--white);
+            border: 2px solid rgba(0,0,0,0.08);
+            color: var(--graphite);
+        }
+        
+        .modal-btn-add:hover {
+            background: var(--bg-cream);
+        }
+        
+        .modal-btn-buy {
+            background: linear-gradient(90deg, var(--gold), var(--gold-end));
+            color: var(--white);
+            box-shadow: 0 4px 16px rgba(201, 169, 97, 0.4);
+        }
+        
+        .modal-btn-buy:hover {
+            box-shadow: 0 6px 20px rgba(201, 169, 97, 0.5);
+        }
+        
+        .modal-close {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.9);
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: var(--transition);
+            z-index: 10;
+        }
+        
+        .modal-close:hover {
+            background: var(--white);
+            transform: rotate(90deg);
+        }
+        
+        /* Toast */
+        .toast {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: linear-gradient(90deg, var(--gold), var(--gold-end));
+            color: var(--white);
+            padding: 16px 24px;
+            border-radius: 12px;
+            box-shadow: 0 8px 24px rgba(201, 169, 97, 0.4);
+            font-weight: 700;
+            z-index: 10000;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: var(--transition);
+            pointer-events: none;
+        }
+        
+        .toast.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        /* Results Section */
+        #resultsSection {
+            padding: 60px 20px;
+            background: var(--bg-light);
+        }
+        
+        .results-container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        
+        .results-title {
+            font-size: 2rem;
+            color: var(--graphite);
+            margin-bottom: 32px;
+        }
+        
+        .results-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 24px;
+        }
+        
+        .result-card {
+            background: var(--white);
+            border-radius: var(--radius);
+            overflow: hidden;
+            box-shadow: var(--shadow-sm);
+            transition: var(--transition);
+        }
+        
+        .result-card:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-md);
+        }
+        
+        .result-image {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+        
+        .result-content {
+            padding: 16px;
+        }
+        
+        .result-title {
+            font-size: 1.2rem;
+            font-weight: 700;
+            margin: 0 0 8px;
+        }
+        
+        .result-desc {
+            font-size: 0.95rem;
+            color: var(--text-muted);
+            margin: 0 0 12px;
+        }
+        
+        .result-actions {
+            display: flex;
+            gap: 8px;
+        }
+        
+        .result-btn {
+            flex: 1;
+            padding: 10px;
+            border-radius: 8px;
+            font-size: 0.9rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: var(--transition);
+            border: none;
+        }
+        
+        /* Features */
         .features-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
@@ -461,7 +936,7 @@
             margin-bottom: 15px;
         }
         
-        /* Pricing Cards */
+        /* Pricing */
         .pricing-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
@@ -620,7 +1095,7 @@
         .step-number {
             width: 70px;
             height: 70px;
-            background: linear-gradient(135deg, var(--gold), #E6C88B);
+            background: linear-gradient(135deg, var(--gold), var(--gold-end));
             color: var(--white);
             border-radius: 50%;
             display: flex;
@@ -694,7 +1169,7 @@
         .submit-btn {
             width: 100%;
             padding: 18px;
-            background: linear-gradient(90deg, var(--gold), #E6C88B);
+            background: linear-gradient(90deg, var(--gold), var(--gold-end));
             color: var(--white);
             border: none;
             border-radius: 999px;
@@ -749,12 +1224,22 @@
             }
         }
         
-        @keyframes float {
-            0%, 100% { transform: translateY(0px); }
-            50% { transform: translateY(-20px); }
+        /* Responsive */
+        @media (max-width: 1024px) {
+            .gallery-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 24px;
+            }
+            
+            .modal-content {
+                grid-template-columns: 1fr;
+            }
+            
+            .modal-image {
+                max-height: 400px;
+            }
         }
         
-        /* Mobile Responsive */
         @media (max-width: 1000px) {
             .hero-stack { display: none; }
             .nav-inner { padding: 10px 15px; }
@@ -766,7 +1251,18 @@
             .hero-content { padding: 80px 20px; }
             .section-title { font-size: 2rem; }
             section { padding: 60px 0; }
-            .gallery-grid { grid-template-columns: 1fr; gap: 30px; }
+            #artGallery { padding: 60px 16px; }
+            .gallery-grid { grid-template-columns: 1fr; gap: 20px; }
+            .featured-grid { grid-template-columns: 1fr; gap: 20px; }
+            .featured-card { height: 320px; }
+            .category-tabs { gap: 8px; }
+            .category-chip { padding: 10px 18px; font-size: 0.9rem; }
+            .card-footer { flex-direction: column; align-items: flex-start; }
+            .card-actions { width: 100%; }
+            .card-btn { flex: 1; }
+            .modal-details { padding: 24px; }
+            .modal-actions { flex-direction: column; }
+            .toast { bottom: 20px; right: 20px; left: 20px; }
             .features-grid { grid-template-columns: 1fr; }
             .pricing-grid { grid-template-columns: 1fr; }
             .testimonials-grid { grid-template-columns: 1fr; }
@@ -814,7 +1310,7 @@
             <h1>Painting & Sketches That Capture Emotion</h1>
             <p class="lead">Custom animal portraits, nature-inspired paintings and fine-detail sketches by a US-based artist. Each piece is crafted to bring warmth and character to your space.</p>
             <div class="hero-ctas">
-                <a class="btn btn-primary" href="#gallery">View Portfolio</a>
+                <a class="btn btn-primary" href="#artGallery">View Portfolio</a>
                 <a class="btn btn-ghost" href="#contact">Request Commission</a>
             </div>
         </div>
@@ -839,33 +1335,26 @@
         </div>
     </section>
 
-    <section id="gallery">
+    <!-- Gallery Section -->
+    <section id="artGallery">
         <div class="container">
-            <h2 class="section-title">Artwork Categories</h2>
-            <p class="section-subtitle">Explore my collection of hand-crafted paintings and sketches</p>
-            <div class="gallery-grid">
-                <div class="gallery-card">
-                    <div class="gallery-card-image">🐾</div>
-                    <div class="gallery-card-content">
-                        <h3>Animal Art</h3>
-                        <p>Pet portraits & wildlife paintings that capture personality and spirit</p>
-                    </div>
-                </div>
-                <div class="gallery-card">
-                    <div class="gallery-card-image">🌿</div>
-                    <div class="gallery-card-content">
-                        <h3>Nature Paintings</h3>
-                        <p>Landscapes, flora, and natural scenes inspired by the beauty around us</p>
-                    </div>
-                </div>
-                <div class="gallery-card">
-                    <div class="gallery-card-image">✏️</div>
-                    <div class="gallery-card-content">
-                        <h3>Pencil Sketches</h3>
-                        <p>Minimalist black-and-white sketches with elegant detail and precision</p>
-                    </div>
-                </div>
+            <div class="gallery-header">
+                <h2 class="gallery-title">Artwork Gallery</h2>
+                <p class="section-subtitle">Explore our curated collection of hand-crafted paintings, sketches, and custom artwork</p>
+                <div class="gallery-divider"></div>
             </div>
+
+            <div class="featured-grid" id="featuredGrid"></div>
+            <div class="category-tabs" id="categoryTabs"></div>
+            <div class="gallery-grid" id="galleryGrid"></div>
+        </div>
+    </section>
+
+    <!-- Results Section -->
+    <section id="resultsSection" style="display:none;">
+        <div class="results-container">
+            <h3 class="results-title">Your Cart (<span id="cartCount">0</span>)</h3>
+            <div class="results-grid" id="resultsGrid"></div>
         </div>
     </section>
 
@@ -1020,69 +1509,402 @@
         </div>
     </footer>
 
+    <!-- Modal -->
+    <div class="modal-overlay" id="galleryModal">
+        <div class="modal-content">
+            <img id="modalImage" class="modal-image" src="" alt="">
+            <div class="modal-details">
+                <span id="modalBadge" class="modal-badge"></span>
+                <h3 id="modalTitle" class="modal-title"></h3>
+                <p id="modalDescription" class="modal-description"></p>
+                <div id="modalPrice" class="modal-price"></div>
+                <div class="modal-actions">
+                    <button class="modal-btn modal-btn-add" id="modalAddBtn">Add to Cart</button>
+                    <button class="modal-btn modal-btn-buy" id="modalBuyBtn">Buy Now</button>
+                </div>
+            </div>
+            <button class="modal-close" id="modalClose">×</button>
+        </div>
+    </div>
+
+    <!-- Toast -->
+    <div class="toast" id="toast"></div>
+
     <script>
-        gsap.registerPlugin(ScrollTrigger);
-        
-        // Parallax hero background
-        const heroBg = document.getElementById('heroBg');
-        document.addEventListener('mousemove', (e) => {
-            const {innerWidth, innerHeight} = window;
-            const x = (e.clientX - innerWidth/2) / innerWidth;
-            const y = (e.clientY - innerHeight/2) / innerHeight;
-            gsap.to(heroBg, {duration: 1.2, x: x*20, y: y*10, scale: 1.02, ease: "power3.out"});
-        });
-        
-        // Floating stack cards
-        gsap.to('.stack-card', {
-            y: '+=20',
-            duration: 2,
-            ease: 'sine.inOut',
-            stagger: 0.2,
-            repeat: -1,
-            yoyo: true
-        });
-        
-        // Scroll reveal for sections
-        const observerOptions = {
-            threshold: 0.15,
-            rootMargin: '0px 0px -100px 0px'
-        };
-        
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('visible');
-                }
-            });
-        }, observerOptions);
-        
-        document.querySelectorAll('section').forEach(section => {
-            observer.observe(section);
-        });
-        
-        // Header scroll effect
-        const header = document.getElementById('mainHeader');
-        window.addEventListener('scroll', () => {
-            if (window.scrollY > 100) {
-                header.classList.add('scrolled');
-            } else {
-                header.classList.remove('scrolled');
+        // Gallery Data
+        const galleryData = [
+            {
+                id: 1,
+                title: "Golden Retriever Portrait",
+                category: "Animal Art",
+                description: "Lifelike pet portrait capturing the warmth and personality of your beloved companion",
+                price: 180,
+                image: "https://images.unsplash.com/photo-1633722715463-d30f4f325e24?w=800&q=80"
+            },
+            {
+                id: 2,
+                title: "Wild Fox Study",
+                category: "Animal Art",
+                description: "Detailed wildlife painting showcasing the elegance of nature's creatures",
+                price: 220,
+                image: "https://images.unsplash.com/photo-1474511320723-9a56873867b5?w=800&q=80"
+            },
+            {
+                id: 3,
+                title: "Cat Portrait",
+                category: "Animal Art",
+                description: "Custom feline portrait with expressive eyes and fine detail",
+                price: 160,
+                image: "https://images.unsplash.com/photo-1514888286974-6c03e2ca1dba?w=800&q=80"
+            },
+            {
+                id: 4,
+                title: "Mountain Landscape",
+                category: "Nature Paintings",
+                description: "Serene mountain vista with soft watercolor techniques",
+                price: 280,
+                image: "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=800&q=80"
+            },
+            {
+                id: 5,
+                title: "Forest Path",
+                category: "Nature Paintings",
+                description: "Peaceful woodland scene with dappled sunlight",
+                price: 240,
+                image: "https://images.unsplash.com/photo-1441974231531-c6227db76b6e?w=800&q=80"
+            },
+            {
+                id: 6,
+                title: "Ocean Sunset",
+                category: "Nature Paintings",
+                description: "Vibrant coastal painting with warm golden tones",
+                price: 300,
+                image: "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=800&q=80"
+            },
+            {
+                id: 7,
+                title: "Portrait Study",
+                category: "Pencil Sketches",
+                description: "High-detail graphite portrait with realistic shading",
+                price: 120,
+                image: "https://images.unsplash.com/photo-1513364776144-60967b0f800f?w=800&q=80"
+            },
+            {
+                id: 8,
+                title: "Botanical Drawing",
+                category: "Pencil Sketches",
+                description: "Delicate pencil sketch of botanical specimens",
+                price: 90,
+                image: "https://images.unsplash.com/photo-1469474968028-56623f02e42e?w=800&q=80"
+            },
+            {
+                id: 9,
+                title: "Architectural Sketch",
+                category: "Pencil Sketches",
+                description: "Detailed architectural line drawing with perspective",
+                price: 140,
+                image: "https://images.unsplash.com/photo-1581320543119-d640f5d90016?w=800&q=80"
             }
+        ];
+
+        const categories = ['All Artworks', 'Animal Art', 'Nature Paintings', 'Pencil Sketches'];
+
+        const featuredCategories = [
+            { name: 'Animal Art', emoji: '🐾', bg: 'linear-gradient(135deg, rgba(168,181,160,0.3), rgba(212,181,176,0.3))' },
+            { name: 'Nature Paintings', emoji: '🌿', bg: 'linear-gradient(135deg, rgba(201,169,97,0.3), rgba(230,200,139,0.3))' },
+            { name: 'Pencil Sketches', emoji: '✏️', bg: 'linear-gradient(135deg, rgba(111,107,106,0.3), rgba(44,44,44,0.3))' }
+        ];
+
+        let cart = [];
+        let currentFilter = 'All Artworks';
+        let currentModalItem = null;
+
+        document.addEventListener('DOMContentLoaded', () => {
+            gsap.registerPlugin(ScrollTrigger);
+            renderFeaturedCards();
+            renderCategoryTabs();
+            renderGalleryCards();
+            initAnimations();
+            initModalHandlers();
+            initScrollEffects();
         });
-        
-        // Smooth scrolling
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
-                e.preventDefault();
-                const target = document.querySelector(this.getAttribute('href'));
-                if (target) {
-                    target.scrollIntoView({
-                        behavior: 'smooth',
-                        block: 'start'
-                    });
+
+        function renderFeaturedCards() {
+            const grid = document.getElementById('featuredGrid');
+            grid.innerHTML = featuredCategories.map(cat => `
+                <div class="featured-card" data-category="${cat.name}">
+                    <div class="featured-bg" style="background: ${cat.bg}; display: flex; align-items: center; justify-content: center; font-size: 8rem;">${cat.emoji}</div>
+                    <div class="featured-content">
+                        <h3 class="featured-title">${cat.name}</h3>
+                        <button class="featured-btn">Explore →</button>
+                    </div>
+                </div>
+            `).join('');
+
+            document.querySelectorAll('.featured-card').forEach(card => {
+                card.addEventListener('click', () => {
+                    const category = card.dataset.category;
+                    filterGallery(category);
+                    document.getElementById('galleryGrid').scrollIntoView({ behavior: 'smooth', block: 'start' });
+                });
+            });
+        }
+
+        function renderCategoryTabs() {
+            const tabs = document.getElementById('categoryTabs');
+            tabs.innerHTML = categories.map((cat, i) => `
+                <button class="category-chip ${i === 0 ? 'active' : ''}" data-category="${cat}">
+                    <span>${cat}</span>
+                </button>
+            `).join('');
+
+            document.querySelectorAll('.category-chip').forEach(chip => {
+                chip.addEventListener('click', () => {
+                    document.querySelectorAll('.category-chip').forEach(c => c.classList.remove('active'));
+                    chip.classList.add('active');
+                    filterGallery(chip.dataset.category);
+                });
+            });
+        }
+
+        function renderGalleryCards(filter = 'All Artworks') {
+            const grid = document.getElementById('galleryGrid');
+            const filtered = filter === 'All Artworks' 
+                ? galleryData 
+                : galleryData.filter(item => item.category === filter);
+
+            grid.innerHTML = filtered.map(item => `
+                <article class="gallery-card" data-id="${item.id}">
+                    <div class="card-image-wrapper">
+                        <span class="card-badge">${item.category}</span>
+                        <img class="card-image" src="${item.image}" alt="${item.title}" loading="lazy">
+                    </div>
+                    <div class="card-content">
+                        <h3 class="card-title">${item.title}</h3>
+                        <p class="card-description">${item.description}</p>
+                        <div class="card-footer">
+                            <div class="card-price">$${item.price}</div>
+                            <div class="card-actions">
+                                <button class="card-btn btn-add" data-id="${item.id}">Add</button>
+                                <button class="card-btn btn-preview" data-id="${item.id}">Preview</button>
+                            </div>
+                        </div>
+                    </div>
+                </article>
+            `).join('');
+
+            document.querySelectorAll('.btn-add').forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    addToCart(parseInt(btn.dataset.id));
+                });
+            });
+
+            document.querySelectorAll('.btn-preview').forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    openModal(parseInt(btn.dataset.id));
+                });
+            });
+
+            setTimeout(() => {
+                document.querySelectorAll('.gallery-card').forEach((card, i) => {
+                    setTimeout(() => card.classList.add('visible'), i * 80);
+                });
+            }, 100);
+        }
+
+        function filterGallery(category) {
+            currentFilter = category;
+            gsap.to('.gallery-card', {
+                opacity: 0,
+                y: 20,
+                duration: 0.3,
+                stagger: 0.03,
+                onComplete: () => renderGalleryCards(category)
+            });
+        }
+
+        function addToCart(id) {
+            const item = galleryData.find(i => i.id === id);
+            if (!item) return;
+            cart.push(item);
+            updateCartDisplay();
+            showToast(`✓ ${item.title} added to cart`);
+        }
+
+        function updateCartDisplay() {
+            const section = document.getElementById('resultsSection');
+            const grid = document.getElementById('resultsGrid');
+            const count = document.getElementById('cartCount');
+
+            count.textContent = cart.length;
+
+            if (cart.length === 0) {
+                section.style.display = 'none';
+                return;
+            }
+
+            section.style.display = 'block';
+            grid.innerHTML = cart.map((item, index) => `
+                <div class="result-card">
+                    <img class="result-image" src="${item.image}" alt="${item.title}">
+                    <div class="result-content">
+                        <h4 class="result-title">${item.title}</h4>
+                        <p class="result-desc">${item.description}</p>
+                        <div class="result-actions">
+                            <button class="result-btn" style="background: linear-gradient(90deg, #C9A961, #E6C88B); color: white;" onclick="window.open('${item.image}', '_blank')">View</button>
+                            <button class="result-btn" style="background: white; border: 2px solid rgba(0,0,0,0.08);" onclick="removeFromCart(${index})">Remove</button>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function removeFromCart(index) {
+            cart.splice(index, 1);
+            updateCartDisplay();
+            showToast('Item removed from cart');
+        }
+
+        function showToast(message) {
+            const toast = document.getElementById('toast');
+            toast.textContent = message;
+            toast.classList.add('show');
+            setTimeout(() => toast.classList.remove('show'), 3000);
+        }
+
+        function openModal(id) {
+            const item = galleryData.find(i => i.id === id);
+            if (!item) return;
+
+            currentModalItem = item;
+            const modal = document.getElementById('galleryModal');
+            
+            document.getElementById('modalImage').src = item.image;
+            document.getElementById('modalBadge').textContent = item.category;
+            document.getElementById('modalTitle').textContent = item.title;
+            document.getElementById('modalDescription').textContent = item.description;
+            document.getElementById('modalPrice').textContent = `$${item.price}`;
+
+            modal.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeModal() {
+            const modal = document.getElementById('galleryModal');
+            modal.classList.remove('active');
+            document.body.style.overflow = '';
+            currentModalItem = null;
+        }
+
+        function initModalHandlers() {
+            document.getElementById('modalClose').addEventListener('click', closeModal);
+            document.getElementById('galleryModal').addEventListener('click', (e) => {
+                if (e.target.id === 'galleryModal') closeModal();
+            });
+
+            document.getElementById('modalAddBtn').addEventListener('click', () => {
+                if (currentModalItem) addToCart(currentModalItem.id);
+            });
+
+            document.getElementById('modalBuyBtn').addEventListener('click', () => {
+                if (currentModalItem) {
+                    showToast(`Proceeding to checkout for ${currentModalItem.title}`);
+                    closeModal();
                 }
             });
-        });
+
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'Escape' && document.getElementById('galleryModal').classList.contains('active')) {
+                    closeModal();
+                }
+            });
+        }
+
+        function initAnimations() {
+            const heroBg = document.getElementById('heroBg');
+            document.addEventListener('mousemove', (e) => {
+                const {innerWidth, innerHeight} = window;
+                const x = (e.clientX - innerWidth/2) / innerWidth;
+                const y = (e.clientY - innerHeight/2) / innerHeight;
+                gsap.to(heroBg, {duration: 1.2, x: x*20, y: y*10, scale: 1.02, ease: "power3.out"});
+            });
+            
+            gsap.to('.stack-card', {
+                y: '+=20',
+                duration: 2,
+                ease: 'sine.inOut',
+                stagger: 0.2,
+                repeat: -1,
+                yoyo: true
+            });
+
+            gsap.from('.featured-card', {
+                scrollTrigger: {
+                    trigger: '.featured-grid',
+                    start: 'top 80%'
+                },
+                y: 50,
+                opacity: 0,
+                duration: 0.8,
+                stagger: 0.15,
+                ease: 'power3.out'
+            });
+
+            gsap.from('.category-chip', {
+                scrollTrigger: {
+                    trigger: '.category-tabs',
+                    start: 'top 80%'
+                },
+                y: 20,
+                opacity: 0,
+                duration: 0.6,
+                stagger: 0.08,
+                ease: 'power2.out'
+            });
+        }
+
+        function initScrollEffects() {
+            const observerOptions = {
+                threshold: 0.15,
+                rootMargin: '0px 0px -100px 0px'
+            };
+            
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                    }
+                });
+            }, observerOptions);
+            
+            document.querySelectorAll('section').forEach(section => {
+                observer.observe(section);
+            });
+            
+            const header = document.getElementById('mainHeader');
+            window.addEventListener('scroll', () => {
+                if (window.scrollY > 100) {
+                    header.classList.add('scrolled');
+                } else {
+                    header.classList.remove('scrolled');
+                }
+            });
+            
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    const target = document.querySelector(this.getAttribute('href'));
+                    if (target) {
+                        target.scrollIntoView({
+                            behavior: 'smooth',
+                            block: 'start'
+                        });
+                    }
+                });
+            });
+        }
     </script>
 </body>
 </html>
