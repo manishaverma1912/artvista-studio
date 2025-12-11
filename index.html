@@ -7,85 +7,828 @@
     <meta name="description" content="Hand-crafted animal portraits, nature-inspired paintings, and fine-detail sketches by a US-based artist.">
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        :root { --cream: #F5F1E8; --graphite: #2C2C2C; --gold: #C9A961; --sage: #A8B5A0; --rose: #D4B5B0; --white: #FFFFFF; }
-        body { font-family: 'Georgia', serif; color: var(--graphite); background: var(--cream); line-height: 1.6; overflow-x: hidden; }
+        
+        :root {
+            --cream: #F5F1E8;
+            --graphite: #2C2C2C;
+            --gold: #C9A961;
+            --sage: #A8B5A0;
+            --rose: #D4B5B0;
+            --white: #FFFFFF;
+        }
+        
+        html { scroll-behavior: smooth; }
+        
+        body {
+            font-family: 'Georgia', serif;
+            color: var(--graphite);
+            background: var(--cream);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+        
         h1, h2, h3 { font-family: 'Palatino', 'Georgia', serif; font-weight: 400; }
         .container { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
-        .hero { min-height: 100vh; display: flex; align-items: center; justify-content: center; text-align: center; background: linear-gradient(rgba(245, 241, 232, 0.85), rgba(245, 241, 232, 0.85)), url('https://nyc3.digitaloceanspaces.com/bhindi-drive/files/28133c83-1f56-479e-83f4-c9aecb6d2e1a/2025-12-10T10-33-03-722Z-4bc0ad93-nano-banana-pro_1765362783377.jpg'); background-size: cover; background-position: center; background-attachment: fixed; animation: fadeIn 1.5s ease-in; }
-        .logo { width: 120px; height: 120px; margin: 0 auto 30px; animation: slideDown 1s ease-out; }
-        .logo img { width: 100%; height: 100%; object-fit: contain; }
-        .hero h1 { font-size: 3.5rem; margin-bottom: 20px; color: var(--graphite); animation: slideUp 1s ease-out 0.3s both; }
-        .hero .tagline { font-size: 1.3rem; color: var(--graphite); margin-bottom: 40px; max-width: 700px; margin-left: auto; margin-right: auto; animation: slideUp 1s ease-out 0.5s both; }
-        .cta-buttons { display: flex; gap: 20px; justify-content: center; flex-wrap: wrap; animation: slideUp 1s ease-out 0.7s both; }
-        .btn { padding: 15px 40px; text-decoration: none; border-radius: 50px; font-size: 1rem; transition: all 0.3s ease; display: inline-block; font-family: 'Georgia', serif; }
-        .btn-primary { background: var(--gold); color: var(--white); border: 2px solid var(--gold); }
-        .btn-primary:hover { background: transparent; color: var(--gold); transform: translateY(-3px); box-shadow: 0 10px 25px rgba(201, 169, 97, 0.3); }
-        .btn-secondary { background: transparent; color: var(--graphite); border: 2px solid var(--graphite); }
-        .btn-secondary:hover { background: var(--graphite); color: var(--white); transform: translateY(-3px); box-shadow: 0 10px 25px rgba(44, 44, 44, 0.2); }
-        section { padding: 100px 0; animation: fadeIn 1s ease-in; }
+        
+        /* Enhanced Header */
+        header {
+            position: fixed;
+            left: 0;
+            right: 0;
+            top: 18px;
+            z-index: 1000;
+            display: flex;
+            justify-content: center;
+            pointer-events: none;
+            transition: all 0.3s ease;
+        }
+        
+        header.scrolled {
+            top: 0;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+        }
+        
+        .nav-inner {
+            width: 100%;
+            max-width: 1200px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 16px;
+            padding: 12px 20px;
+            border-radius: 999px;
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(10px);
+            pointer-events: all;
+            box-shadow: 0 6px 20px rgba(0,0,0,0.06);
+            transition: all 0.3s ease;
+        }
+        
+        .brand { display: flex; align-items: center; gap: 12px; }
+        
+        .logo-dot {
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--gold), #E6C88B);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            color: #fff;
+            box-shadow: 0 6px 20px rgba(201, 169, 97, 0.3);
+            transition: transform 0.3s ease;
+        }
+        
+        .logo-dot:hover { transform: rotate(360deg) scale(1.1); }
+        
+        .brand h4 { margin: 0; font-size: 1rem; }
+        
+        nav { display: flex; align-items: center; gap: 8px; }
+        nav a {
+            color: var(--graphite);
+            text-decoration: none;
+            padding: 8px 16px;
+            font-weight: 600;
+            border-radius: 999px;
+            transition: all 0.3s ease;
+        }
+        
+        nav a:hover {
+            background: rgba(201, 169, 97, 0.1);
+            transform: translateY(-2px);
+        }
+        
+        nav a.btn-ghost {
+            border: 1px solid rgba(0,0,0,0.1);
+            background: linear-gradient(90deg, var(--gold), #E6C88B);
+            color: white;
+        }
+        
+        /* Hero Section with Parallax */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+            padding-top: 80px;
+        }
+        
+        .hero-bg {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(180deg, rgba(246,242,234,0.9), rgba(246,242,234,0.85)),
+                        url('https://nyc3.digitaloceanspaces.com/bhindi-drive/files/28133c83-1f56-479e-83f4-c9aecb6d2e1a/2025-12-10T10-33-03-722Z-4bc0ad93-nano-banana-pro_1765362783377.jpg');
+            background-size: cover;
+            background-position: center;
+            transform: translateZ(0);
+            will-change: transform;
+        }
+        
+        .hero-overlay {
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(900px 300px at 10% 20%, rgba(255,255,255,0.4), transparent 20%),
+                        radial-gradient(700px 250px at 90% 80%, rgba(201,169,97,0.08), transparent 20%);
+            pointer-events: none;
+        }
+        
+        .hero-particles {
+            position: absolute;
+            inset: 0;
+            pointer-events: none;
+            background-image: radial-gradient(circle at 10% 15%, rgba(255,255,255,0.05) 0 1px, transparent 1px),
+                              radial-gradient(circle at 60% 80%, rgba(0,0,0,0.02) 0 1px, transparent 1px);
+            background-size: 120px 120px, 200px 200px;
+            mix-blend-mode: overlay;
+            opacity: 0.9;
+        }
+        
+        .hero-content {
+            position: relative;
+            z-index: 20;
+            padding: 120px 20px;
+            text-align: center;
+            max-width: 980px;
+            margin: 0 auto;
+        }
+        
+        .eyebrow {
+            display: inline-block;
+            padding: 8px 16px;
+            border-radius: 999px;
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(10px);
+            font-weight: 600;
+            color: var(--graphite);
+            margin-bottom: 20px;
+            opacity: 0;
+            animation: fadeInUp 0.8s ease forwards;
+        }
+        
+        h1 {
+            font-size: clamp(2.5rem, 6vw, 4rem);
+            margin: 0;
+            color: var(--graphite);
+            line-height: 1.1;
+            letter-spacing: -0.02em;
+            opacity: 0;
+            animation: fadeInUp 0.8s ease 0.2s forwards;
+        }
+        
+        .lead {
+            margin-top: 20px;
+            font-size: clamp(1rem, 2.5vw, 1.3rem);
+            color: var(--muted);
+            max-width: 760px;
+            margin-left: auto;
+            margin-right: auto;
+            opacity: 0;
+            animation: fadeInUp 0.8s ease 0.4s forwards;
+        }
+        
+        .hero-ctas {
+            margin-top: 32px;
+            display: flex;
+            gap: 16px;
+            justify-content: center;
+            flex-wrap: wrap;
+            opacity: 0;
+            animation: fadeInUp 0.8s ease 0.6s forwards;
+        }
+        
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 14px 32px;
+            border-radius: 999px;
+            font-weight: 700;
+            text-decoration: none;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: none;
+            font-size: 1rem;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(90deg, var(--gold), #E6C88B);
+            color: #fff;
+            box-shadow: 0 8px 25px rgba(201, 169, 97, 0.3);
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 35px rgba(201, 169, 97, 0.4);
+        }
+        
+        .btn-ghost {
+            background: transparent;
+            border: 2px solid rgba(0,0,0,0.1);
+            color: var(--graphite);
+        }
+        
+        .btn-ghost:hover {
+            background: var(--graphite);
+            color: white;
+            transform: translateY(-4px);
+        }
+        
+        /* Floating Stack Cards */
+        .hero-stack {
+            position: absolute;
+            right: 8vw;
+            top: 50%;
+            transform: translateY(-50%);
+            display: grid;
+            gap: 20px;
+            z-index: 22;
+        }
+        
+        .stack-card {
+            width: 220px;
+            height: 300px;
+            border-radius: 16px;
+            background: white;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.15);
+            overflow: hidden;
+            border: 1px solid rgba(0,0,0,0.05);
+            transition: all 0.4s ease;
+            cursor: pointer;
+        }
+        
+        .stack-card:hover {
+            transform: translateY(-10px) rotate(0deg) !important;
+            box-shadow: 0 30px 80px rgba(0,0,0,0.2);
+        }
+        
+        .stack-card img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        /* Scroll Reveal Sections */
+        section {
+            padding: 100px 0;
+            position: relative;
+            opacity: 0;
+            transform: translateY(50px);
+            transition: all 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+        
+        section.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
         section:nth-child(even) { background: var(--white); }
-        .section-title { text-align: center; font-size: 2.5rem; margin-bottom: 20px; color: var(--graphite); }
-        .section-subtitle { text-align: center; font-size: 1.1rem; color: #666; margin-bottom: 60px; max-width: 700px; margin-left: auto; margin-right: auto; }
-        .about-content { max-width: 800px; margin: 0 auto; text-align: center; font-size: 1.15rem; line-height: 1.8; }
-        .about-content p { margin-bottom: 20px; }
-        .gallery-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 40px; margin-top: 60px; }
-        .gallery-card { background: var(--white); border-radius: 15px; overflow: hidden; box-shadow: 0 5px 20px rgba(0,0,0,0.1); transition: all 0.4s ease; cursor: pointer; }
-        .gallery-card:hover { transform: translateY(-10px); box-shadow: 0 15px 40px rgba(0,0,0,0.15); }
-        .gallery-card-image { width: 100%; height: 280px; background: linear-gradient(135deg, var(--sage), var(--rose)); display: flex; align-items: center; justify-content: center; font-size: 4rem; color: var(--white); }
-        .gallery-card-content { padding: 30px; text-align: center; }
-        .gallery-card h3 { font-size: 1.8rem; margin-bottom: 15px; color: var(--graphite); }
-        .gallery-card p { color: #666; font-size: 1rem; }
-        .features-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 40px; margin-top: 60px; }
-        .feature-item { text-align: center; padding: 30px; }
-        .feature-icon { font-size: 3rem; margin-bottom: 20px; color: var(--gold); }
-        .feature-item h3 { font-size: 1.5rem; margin-bottom: 15px; }
-        .pricing-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 30px; margin-top: 60px; }
-        .pricing-card { background: var(--white); padding: 40px 30px; border-radius: 15px; text-align: center; box-shadow: 0 5px 20px rgba(0,0,0,0.08); transition: all 0.3s ease; border: 2px solid transparent; }
-        .pricing-card:hover { border-color: var(--gold); transform: translateY(-5px); box-shadow: 0 10px 30px rgba(201, 169, 97, 0.2); }
-        .pricing-card h3 { font-size: 1.8rem; margin-bottom: 15px; color: var(--graphite); }
-        .price { font-size: 2.5rem; color: var(--gold); margin: 20px 0; font-weight: bold; }
-        .pricing-card ul { list-style: none; margin: 20px 0; text-align: left; }
-        .pricing-card li { padding: 10px 0; border-bottom: 1px solid #eee; }
-        .pricing-card li:before { content: "✓ "; color: var(--gold); font-weight: bold; margin-right: 10px; }
-        .testimonials-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 40px; margin-top: 60px; }
-        .testimonial-card { background: var(--white); padding: 40px; border-radius: 15px; box-shadow: 0 5px 20px rgba(0,0,0,0.08); position: relative; }
-        .testimonial-card:before { content: '"'; font-size: 5rem; color: var(--gold); opacity: 0.3; position: absolute; top: 10px; left: 20px; font-family: Georgia, serif; }
-        .testimonial-text { font-style: italic; margin-bottom: 20px; font-size: 1.1rem; position: relative; z-index: 1; }
-        .testimonial-author { font-weight: bold; color: var(--gold); }
-        .steps-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 40px; margin-top: 60px; }
-        .step-item { text-align: center; padding: 30px; background: var(--white); border-radius: 15px; box-shadow: 0 5px 15px rgba(0,0,0,0.05); }
-        .step-number { width: 60px; height: 60px; background: var(--gold); color: var(--white); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.8rem; font-weight: bold; margin: 0 auto 20px; }
-        .step-item h3 { font-size: 1.5rem; margin-bottom: 15px; }
-        .contact-form { max-width: 600px; margin: 60px auto 0; }
-        .form-group { margin-bottom: 25px; }
-        .form-group label { display: block; margin-bottom: 8px; font-weight: bold; color: var(--graphite); }
-        .form-group input, .form-group textarea { width: 100%; padding: 15px; border: 2px solid #ddd; border-radius: 8px; font-family: Georgia, serif; font-size: 1rem; transition: border-color 0.3s ease; }
-        .form-group input:focus, .form-group textarea:focus { outline: none; border-color: var(--gold); }
-        .form-group textarea { min-height: 150px; resize: vertical; }
-        .submit-btn { width: 100%; padding: 18px; background: var(--gold); color: var(--white); border: none; border-radius: 50px; font-size: 1.1rem; cursor: pointer; transition: all 0.3s ease; font-family: Georgia, serif; }
-        .submit-btn:hover { background: var(--graphite); transform: translateY(-3px); box-shadow: 0 10px 25px rgba(44, 44, 44, 0.2); }
-        footer { background: var(--graphite); color: var(--white); text-align: center; padding: 40px 20px; }
-        .social-links { margin: 20px 0; }
-        .social-links a { color: var(--white); font-size: 1.5rem; margin: 0 15px; text-decoration: none; transition: color 0.3s ease; }
-        .social-links a:hover { color: var(--gold); }
-        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-        @keyframes slideUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
-        @keyframes slideDown { from { opacity: 0; transform: translateY(-30px); } to { opacity: 1; transform: translateY(0); } }
-        @media (max-width: 768px) { .hero h1 { font-size: 2.5rem; } .hero .tagline { font-size: 1.1rem; } .section-title { font-size: 2rem; } section { padding: 60px 0; } .cta-buttons { flex-direction: column; align-items: center; } .btn { width: 100%; max-width: 300px; } }
+        
+        .section-title {
+            text-align: center;
+            font-size: clamp(2rem, 4vw, 2.8rem);
+            margin-bottom: 20px;
+            color: var(--graphite);
+            position: relative;
+            display: inline-block;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+        
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 4px;
+            background: linear-gradient(90deg, var(--gold), #E6C88B);
+            border-radius: 2px;
+        }
+        
+        .section-subtitle {
+            text-align: center;
+            font-size: 1.1rem;
+            color: #666;
+            margin-bottom: 60px;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        
+        /* About Section */
+        .about-content {
+            max-width: 800px;
+            margin: 0 auto;
+            text-align: center;
+            font-size: 1.15rem;
+            line-height: 1.8;
+        }
+        
+        .about-content p {
+            margin-bottom: 20px;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.6s ease;
+        }
+        
+        section.visible .about-content p {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        section.visible .about-content p:nth-child(2) {
+            transition-delay: 0.2s;
+        }
+        
+        /* Gallery Cards with Stagger Animation */
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 40px;
+            margin-top: 60px;
+        }
+        
+        .gallery-card {
+            background: var(--white);
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.08);
+            transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            cursor: pointer;
+            opacity: 0;
+            transform: translateY(30px) scale(0.95);
+        }
+        
+        section.visible .gallery-card {
+            opacity: 1;
+            transform: translateY(0) scale(1);
+        }
+        
+        section.visible .gallery-card:nth-child(1) { transition-delay: 0.1s; }
+        section.visible .gallery-card:nth-child(2) { transition-delay: 0.2s; }
+        section.visible .gallery-card:nth-child(3) { transition-delay: 0.3s; }
+        
+        .gallery-card:hover {
+            transform: translateY(-15px) scale(1.02);
+            box-shadow: 0 20px 60px rgba(0,0,0,0.15);
+        }
+        
+        .gallery-card-image {
+            width: 100%;
+            height: 280px;
+            background: linear-gradient(135deg, var(--sage), var(--rose));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 4rem;
+            color: var(--white);
+            transition: transform 0.4s ease;
+        }
+        
+        .gallery-card:hover .gallery-card-image {
+            transform: scale(1.1);
+        }
+        
+        .gallery-card-content {
+            padding: 30px;
+            text-align: center;
+        }
+        
+        .gallery-card h3 {
+            font-size: 1.8rem;
+            margin-bottom: 15px;
+            color: var(--graphite);
+        }
+        
+        .gallery-card p {
+            color: #666;
+            font-size: 1rem;
+        }
+        
+        /* Features Grid */
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 40px;
+            margin-top: 60px;
+        }
+        
+        .feature-item {
+            text-align: center;
+            padding: 40px 30px;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.05);
+            transition: all 0.4s ease;
+            opacity: 0;
+            transform: translateY(30px);
+        }
+        
+        section.visible .feature-item {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        section.visible .feature-item:nth-child(1) { transition-delay: 0.1s; }
+        section.visible .feature-item:nth-child(2) { transition-delay: 0.2s; }
+        section.visible .feature-item:nth-child(3) { transition-delay: 0.3s; }
+        section.visible .feature-item:nth-child(4) { transition-delay: 0.4s; }
+        
+        .feature-item:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.1);
+        }
+        
+        .feature-icon {
+            font-size: 3.5rem;
+            margin-bottom: 20px;
+            color: var(--gold);
+            transition: transform 0.3s ease;
+        }
+        
+        .feature-item:hover .feature-icon {
+            transform: scale(1.2) rotate(10deg);
+        }
+        
+        .feature-item h3 {
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+        }
+        
+        /* Pricing Cards */
+        .pricing-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+            margin-top: 60px;
+        }
+        
+        .pricing-card {
+            background: var(--white);
+            padding: 40px 30px;
+            border-radius: 20px;
+            text-align: center;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.08);
+            transition: all 0.4s ease;
+            border: 2px solid transparent;
+            opacity: 0;
+            transform: translateY(30px) rotateX(10deg);
+        }
+        
+        section.visible .pricing-card {
+            opacity: 1;
+            transform: translateY(0) rotateX(0deg);
+        }
+        
+        section.visible .pricing-card:nth-child(1) { transition-delay: 0.1s; }
+        section.visible .pricing-card:nth-child(2) { transition-delay: 0.2s; }
+        section.visible .pricing-card:nth-child(3) { transition-delay: 0.3s; }
+        
+        .pricing-card:hover {
+            border-color: var(--gold);
+            transform: translateY(-15px) scale(1.05);
+            box-shadow: 0 20px 60px rgba(201, 169, 97, 0.3);
+        }
+        
+        .pricing-card h3 {
+            font-size: 1.8rem;
+            margin-bottom: 15px;
+            color: var(--graphite);
+        }
+        
+        .price {
+            font-size: 3rem;
+            color: var(--gold);
+            margin: 20px 0;
+            font-weight: bold;
+        }
+        
+        .pricing-card ul {
+            list-style: none;
+            margin: 20px 0;
+            text-align: left;
+        }
+        
+        .pricing-card li {
+            padding: 10px 0;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .pricing-card li:before {
+            content: "✓ ";
+            color: var(--gold);
+            font-weight: bold;
+            margin-right: 10px;
+        }
+        
+        /* Testimonials */
+        .testimonials-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 40px;
+            margin-top: 60px;
+        }
+        
+        .testimonial-card {
+            background: var(--white);
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.08);
+            position: relative;
+            transition: all 0.4s ease;
+            opacity: 0;
+            transform: translateY(30px);
+        }
+        
+        section.visible .testimonial-card {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        section.visible .testimonial-card:nth-child(1) { transition-delay: 0.1s; }
+        section.visible .testimonial-card:nth-child(2) { transition-delay: 0.2s; }
+        section.visible .testimonial-card:nth-child(3) { transition-delay: 0.3s; }
+        
+        .testimonial-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 60px rgba(0,0,0,0.12);
+        }
+        
+        .testimonial-card:before {
+            content: '"';
+            font-size: 5rem;
+            color: var(--gold);
+            opacity: 0.2;
+            position: absolute;
+            top: 10px;
+            left: 20px;
+            font-family: Georgia, serif;
+        }
+        
+        .testimonial-text {
+            font-style: italic;
+            margin-bottom: 20px;
+            font-size: 1.1rem;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .testimonial-author {
+            font-weight: bold;
+            color: var(--gold);
+        }
+        
+        /* Steps */
+        .steps-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 40px;
+            margin-top: 60px;
+        }
+        
+        .step-item {
+            text-align: center;
+            padding: 40px 30px;
+            background: var(--white);
+            border-radius: 20px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.08);
+            transition: all 0.4s ease;
+            opacity: 0;
+            transform: translateY(30px);
+        }
+        
+        section.visible .step-item {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        section.visible .step-item:nth-child(1) { transition-delay: 0.1s; }
+        section.visible .step-item:nth-child(2) { transition-delay: 0.2s; }
+        section.visible .step-item:nth-child(3) { transition-delay: 0.3s; }
+        
+        .step-item:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 60px rgba(0,0,0,0.12);
+        }
+        
+        .step-number {
+            width: 70px;
+            height: 70px;
+            background: linear-gradient(135deg, var(--gold), #E6C88B);
+            color: var(--white);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            font-weight: bold;
+            margin: 0 auto 20px;
+            box-shadow: 0 10px 30px rgba(201, 169, 97, 0.3);
+            transition: transform 0.3s ease;
+        }
+        
+        .step-item:hover .step-number {
+            transform: scale(1.2) rotate(360deg);
+        }
+        
+        .step-item h3 {
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+        }
+        
+        /* Contact Form */
+        .contact-form {
+            max-width: 600px;
+            margin: 60px auto 0;
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s ease;
+        }
+        
+        section.visible .contact-form {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        .form-group {
+            margin-bottom: 25px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+            color: var(--graphite);
+        }
+        
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 15px;
+            border: 2px solid #ddd;
+            border-radius: 12px;
+            font-family: Georgia, serif;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+        
+        .form-group input:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: var(--gold);
+            box-shadow: 0 0 0 4px rgba(201, 169, 97, 0.1);
+            transform: translateY(-2px);
+        }
+        
+        .form-group textarea {
+            min-height: 150px;
+            resize: vertical;
+        }
+        
+        .submit-btn {
+            width: 100%;
+            padding: 18px;
+            background: linear-gradient(90deg, var(--gold), #E6C88B);
+            color: var(--white);
+            border: none;
+            border-radius: 999px;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: Georgia, serif;
+            font-weight: 700;
+            box-shadow: 0 8px 25px rgba(201, 169, 97, 0.3);
+        }
+        
+        .submit-btn:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 35px rgba(201, 169, 97, 0.4);
+        }
+        
+        /* Footer */
+        footer {
+            background: var(--graphite);
+            color: var(--white);
+            text-align: center;
+            padding: 60px 20px;
+        }
+        
+        .social-links {
+            margin: 20px 0;
+        }
+        
+        .social-links a {
+            color: var(--white);
+            font-size: 1.8rem;
+            margin: 0 15px;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            display: inline-block;
+        }
+        
+        .social-links a:hover {
+            color: var(--gold);
+            transform: translateY(-5px) scale(1.2);
+        }
+        
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
+        }
+        
+        /* Mobile Responsive */
+        @media (max-width: 1000px) {
+            .hero-stack { display: none; }
+            .nav-inner { padding: 10px 15px; }
+        }
+        
+        @media (max-width: 768px) {
+            h1 { font-size: 2.5rem; }
+            .hero { padding-top: 100px; }
+            .hero-content { padding: 80px 20px; }
+            .section-title { font-size: 2rem; }
+            section { padding: 60px 0; }
+            .gallery-grid { grid-template-columns: 1fr; gap: 30px; }
+            .features-grid { grid-template-columns: 1fr; }
+            .pricing-grid { grid-template-columns: 1fr; }
+            .testimonials-grid { grid-template-columns: 1fr; }
+            .steps-grid { grid-template-columns: 1fr; }
+            nav { display: none; }
+            .logo-dot { width: 36px; height: 36px; font-size: 0.9rem; }
+            .brand h4 { font-size: 0.9rem; }
+        }
+        
+        @media (max-width: 480px) {
+            h1 { font-size: 2rem; }
+            .btn { padding: 12px 24px; font-size: 0.9rem; }
+            .hero-ctas { flex-direction: column; }
+        }
     </style>
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
 </head>
 <body>
-    <section class="hero">
-        <div class="container">
-            <div class="logo"><img src="https://nyc3.digitaloceanspaces.com/bhindi-drive/files/28133c83-1f56-479e-83f4-c9aecb6d2e1a/2025-12-10T10-32-46-740Z-46a13d0b-nano-banana-pro_1765362766614.jpg" alt="ArtVista Studio Logo"></div>
+    <header id="mainHeader">
+        <div class="nav-inner">
+            <div class="brand">
+                <div class="logo-dot">AV</div>
+                <div>
+                    <h4>ArtVista Studio</h4>
+                    <small style="color:#666;font-weight:600;font-size:0.85rem">Painting & Sketches</small>
+                </div>
+            </div>
+            <nav>
+                <a href="#gallery">Portfolio</a>
+                <a href="#pricing">Pricing</a>
+                <a href="#contact" class="btn-ghost">Request</a>
+            </nav>
+        </div>
+    </header>
+
+    <main class="hero">
+        <div class="hero-bg" id="heroBg"></div>
+        <div class="hero-overlay"></div>
+        <div class="hero-particles"></div>
+        
+        <div class="hero-content">
+            <div class="eyebrow">Original — Handcrafted</div>
             <h1>Painting & Sketches That Capture Emotion</h1>
-            <p class="tagline">Hand-crafted animal portraits, nature-inspired paintings, and fine-detail sketches by a US-based artist.</p>
-            <div class="cta-buttons">
-                <a href="#gallery" class="btn btn-primary">View Portfolio</a>
-                <a href="#contact" class="btn btn-secondary">Request Custom Artwork</a>
+            <p class="lead">Custom animal portraits, nature-inspired paintings and fine-detail sketches by a US-based artist. Each piece is crafted to bring warmth and character to your space.</p>
+            <div class="hero-ctas">
+                <a class="btn btn-primary" href="#gallery">View Portfolio</a>
+                <a class="btn btn-ghost" href="#contact">Request Commission</a>
             </div>
         </div>
-    </section>
+        
+        <div class="hero-stack">
+            <div class="stack-card" style="transform:rotate(-10deg) translateY(-20px)">
+                <img src="https://nyc3.digitaloceanspaces.com/bhindi-drive/files/28133c83-1f56-479e-83f4-c9aecb6d2e1a/2025-12-10T10-32-46-740Z-46a13d0b-nano-banana-pro_1765362766614.jpg" alt="Art Preview 1">
+            </div>
+            <div class="stack-card" style="transform:rotate(6deg) translateY(20px)">
+                <img src="https://nyc3.digitaloceanspaces.com/bhindi-drive/files/28133c83-1f56-479e-83f4-c9aecb6d2e1a/2025-12-10T10-33-03-722Z-4bc0ad93-nano-banana-pro_1765362783377.jpg" alt="Art Preview 2">
+            </div>
+        </div>
+    </main>
+
     <section id="about">
         <div class="container">
             <h2 class="section-title">About the Artist</h2>
@@ -95,75 +838,176 @@
             </div>
         </div>
     </section>
+
     <section id="gallery">
         <div class="container">
             <h2 class="section-title">Artwork Categories</h2>
             <p class="section-subtitle">Explore my collection of hand-crafted paintings and sketches</p>
             <div class="gallery-grid">
-                <div class="gallery-card"><div class="gallery-card-image">🐾</div><div class="gallery-card-content"><h3>Animal Art</h3><p>Pet portraits & wildlife paintings that capture personality and spirit</p></div></div>
-                <div class="gallery-card"><div class="gallery-card-image">🌿</div><div class="gallery-card-content"><h3>Nature Paintings</h3><p>Landscapes, flora, and natural scenes inspired by the beauty around us</p></div></div>
-                <div class="gallery-card"><div class="gallery-card-image">✏️</div><div class="gallery-card-content"><h3>Pencil Sketches</h3><p>Minimalist black-and-white sketches with elegant detail and precision</p></div></div>
+                <div class="gallery-card">
+                    <div class="gallery-card-image">🐾</div>
+                    <div class="gallery-card-content">
+                        <h3>Animal Art</h3>
+                        <p>Pet portraits & wildlife paintings that capture personality and spirit</p>
+                    </div>
+                </div>
+                <div class="gallery-card">
+                    <div class="gallery-card-image">🌿</div>
+                    <div class="gallery-card-content">
+                        <h3>Nature Paintings</h3>
+                        <p>Landscapes, flora, and natural scenes inspired by the beauty around us</p>
+                    </div>
+                </div>
+                <div class="gallery-card">
+                    <div class="gallery-card-image">✏️</div>
+                    <div class="gallery-card-content">
+                        <h3>Pencil Sketches</h3>
+                        <p>Minimalist black-and-white sketches with elegant detail and precision</p>
+                    </div>
+                </div>
             </div>
         </div>
     </section>
+
     <section id="features">
         <div class="container">
             <h2 class="section-title">Why Choose ArtVista Studio</h2>
             <div class="features-grid">
-                <div class="feature-item"><div class="feature-icon">🎨</div><h3>Handcrafted Originals</h3><p>Every piece is uniquely created with care and attention to detail</p></div>
-                <div class="feature-item"><div class="feature-icon">✨</div><h3>Custom Commissions</h3><p>Personalized artwork tailored to your vision and preferences</p></div>
-                <div class="feature-item"><div class="feature-icon">🖌️</div><h3>Premium Materials</h3><p>High-quality paints, canvas, and paper for lasting beauty</p></div>
-                <div class="feature-item"><div class="feature-icon">🚚</div><h3>Fast US Delivery</h3><p>Reliable shipping across the United States</p></div>
-                <div class="feature-item"><div class="feature-icon">💎</div><h3>Professional Quality</h3><p>Gallery-worthy artwork at affordable prices</p></div>
+                <div class="feature-item">
+                    <div class="feature-icon">🎨</div>
+                    <h3>Handcrafted Originals</h3>
+                    <p>Every piece is uniquely created with care and attention to detail</p>
+                </div>
+                <div class="feature-item">
+                    <div class="feature-icon">✨</div>
+                    <h3>Custom Commissions</h3>
+                    <p>Personalized artwork tailored to your vision and preferences</p>
+                </div>
+                <div class="feature-item">
+                    <div class="feature-icon">🖌️</div>
+                    <h3>Premium Materials</h3>
+                    <p>High-quality paints, canvas, and paper for lasting beauty</p>
+                </div>
+                <div class="feature-item">
+                    <div class="feature-icon">🚚</div>
+                    <h3>Fast US Delivery</h3>
+                    <p>Reliable shipping across the United States</p>
+                </div>
             </div>
         </div>
     </section>
+
     <section id="pricing">
         <div class="container">
             <h2 class="section-title">Custom Artwork Pricing</h2>
             <p class="section-subtitle">Transparent pricing for quality artwork</p>
             <div class="pricing-grid">
-                <div class="pricing-card"><h3>Pencil Sketch</h3><div class="price">$60+</div><p>A4 / 8x11"</p><ul><li>High-detail sketch</li><li>1-2 free revisions</li><li>Digital copy included</li><li>Fast delivery</li></ul></div>
-                <div class="pricing-card"><h3>Animal Portrait</h3><div class="price">$120+</div><p>Acrylic / Watercolor</p><ul><li>Custom pet portrait</li><li>Premium materials</li><li>1-2 free revisions</li><li>Certificate of authenticity</li></ul></div>
-                <div class="pricing-card"><h3>Nature Painting</h3><div class="price">$150+</div><p>Canvas</p><ul><li>Original canvas painting</li><li>Custom size options</li><li>Premium quality</li><li>Certificate of authenticity</li></ul></div>
-                <div class="pricing-card"><h3>Custom Commission</h3><div class="price">Quote</div><p>Any size or style</p><ul><li>Fully customized artwork</li><li>Your vision realized</li><li>Flexible pricing</li><li>Detailed consultation</li></ul></div>
+                <div class="pricing-card">
+                    <h3>Pencil Sketch</h3>
+                    <div class="price">$60+</div>
+                    <p>A4 / 8x11"</p>
+                    <ul>
+                        <li>High-detail sketch</li>
+                        <li>1-2 free revisions</li>
+                        <li>Digital copy included</li>
+                        <li>Fast delivery</li>
+                    </ul>
+                </div>
+                <div class="pricing-card">
+                    <h3>Animal Portrait</h3>
+                    <div class="price">$120+</div>
+                    <p>Acrylic / Watercolor</p>
+                    <ul>
+                        <li>Custom pet portrait</li>
+                        <li>Premium materials</li>
+                        <li>1-2 free revisions</li>
+                        <li>Certificate of authenticity</li>
+                    </ul>
+                </div>
+                <div class="pricing-card">
+                    <h3>Nature Painting</h3>
+                    <div class="price">$150+</div>
+                    <p>Canvas</p>
+                    <ul>
+                        <li>Original canvas painting</li>
+                        <li>Custom size options</li>
+                        <li>Premium quality</li>
+                        <li>Certificate of authenticity</li>
+                    </ul>
+                </div>
             </div>
         </div>
     </section>
+
     <section id="testimonials">
         <div class="container">
             <h2 class="section-title">What Clients Say</h2>
             <div class="testimonials-grid">
-                <div class="testimonial-card"><p class="testimonial-text">The most beautiful pet portrait I've ever purchased. The detail is unbelievable!</p><p class="testimonial-author">— Emily R.</p></div>
-                <div class="testimonial-card"><p class="testimonial-text">Fast, professional, and incredibly talented. My custom nature painting transformed my living room.</p><p class="testimonial-author">— Daniel M.</p></div>
-                <div class="testimonial-card"><p class="testimonial-text">Exactly what I wanted. The pencil sketch looks like it belongs in a gallery.</p><p class="testimonial-author">— Sarah T.</p></div>
+                <div class="testimonial-card">
+                    <p class="testimonial-text">The most beautiful pet portrait I've ever purchased. The detail is unbelievable!</p>
+                    <p class="testimonial-author">— Emily R.</p>
+                </div>
+                <div class="testimonial-card">
+                    <p class="testimonial-text">Fast, professional, and incredibly talented. My custom nature painting transformed my living room.</p>
+                    <p class="testimonial-author">— Daniel M.</p>
+                </div>
+                <div class="testimonial-card">
+                    <p class="testimonial-text">Exactly what I wanted. The pencil sketch looks like it belongs in a gallery.</p>
+                    <p class="testimonial-author">— Sarah T.</p>
+                </div>
             </div>
         </div>
     </section>
+
     <section id="commission">
         <div class="container">
             <h2 class="section-title">How It Works</h2>
             <p class="section-subtitle">Simple steps to get your custom artwork</p>
             <div class="steps-grid">
-                <div class="step-item"><div class="step-number">1</div><h3>Send Your Idea</h3><p>Share your photo or concept with me</p></div>
-                <div class="step-item"><div class="step-number">2</div><h3>Approve Style</h3><p>We discuss and finalize the artwork style</p></div>
-                <div class="step-item"><div class="step-number">3</div><h3>Receive Artwork</h3><p>Get your custom painting or sketch delivered</p></div>
+                <div class="step-item">
+                    <div class="step-number">1</div>
+                    <h3>Send Your Idea</h3>
+                    <p>Share your photo or concept with me</p>
+                </div>
+                <div class="step-item">
+                    <div class="step-number">2</div>
+                    <h3>Approve Style</h3>
+                    <p>We discuss and finalize the artwork style</p>
+                </div>
+                <div class="step-item">
+                    <div class="step-number">3</div>
+                    <h3>Receive Artwork</h3>
+                    <p>Get your custom painting or sketch delivered</p>
+                </div>
             </div>
-            <div style="text-align: center; margin-top: 40px;"><a href="#contact" class="btn btn-primary">Start Your Custom Order</a></div>
+            <div style="text-align: center; margin-top: 40px;">
+                <a href="#contact" class="btn btn-primary">Start Your Custom Order</a>
+            </div>
         </div>
     </section>
+
     <section id="contact">
         <div class="container">
             <h2 class="section-title">Get In Touch</h2>
             <p class="section-subtitle">Ready to commission your custom artwork? Let's talk!</p>
             <form class="contact-form" action="https://formspree.io/f/YOUR_FORM_ID" method="POST">
-                <div class="form-group"><label for="name">Your Name</label><input type="text" id="name" name="name" required></div>
-                <div class="form-group"><label for="email">Email Address</label><input type="email" id="email" name="email" required></div>
-                <div class="form-group"><label for="project">Tell Me About Your Project</label><textarea id="project" name="project" required></textarea></div>
+                <div class="form-group">
+                    <label for="name">Your Name</label>
+                    <input type="text" id="name" name="name" required>
+                </div>
+                <div class="form-group">
+                    <label for="email">Email Address</label>
+                    <input type="email" id="email" name="email" required>
+                </div>
+                <div class="form-group">
+                    <label for="project">Tell Me About Your Project</label>
+                    <textarea id="project" name="project" required></textarea>
+                </div>
                 <button type="submit" class="submit-btn">Send Message</button>
             </form>
         </div>
     </section>
+
     <footer>
         <div class="container">
             <p>&copy; 2025 ArtVista Studio. All rights reserved.</p>
@@ -175,11 +1019,70 @@
             <p style="margin-top: 20px; font-size: 0.9rem;">Hand-crafted with ❤️ by ArtVista Studio</p>
         </div>
     </footer>
+
     <script>
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => { anchor.addEventListener('click', function (e) { e.preventDefault(); const target = document.querySelector(this.getAttribute('href')); if (target) { target.scrollIntoView({ behavior: 'smooth', block: 'start' }); } }); });
-        const observerOptions = { threshold: 0.1, rootMargin: '0px 0px -50px 0px' };
-        const observer = new IntersectionObserver((entries) => { entries.forEach(entry => { if (entry.isIntersecting) { entry.target.style.opacity = '1'; entry.target.style.transform = 'translateY(0)'; } }); }, observerOptions);
-        document.querySelectorAll('section').forEach(section => { section.style.opacity = '0'; section.style.transform = 'translateY(20px)'; section.style.transition = 'opacity 0.8s ease, transform 0.8s ease'; observer.observe(section); });
+        gsap.registerPlugin(ScrollTrigger);
+        
+        // Parallax hero background
+        const heroBg = document.getElementById('heroBg');
+        document.addEventListener('mousemove', (e) => {
+            const {innerWidth, innerHeight} = window;
+            const x = (e.clientX - innerWidth/2) / innerWidth;
+            const y = (e.clientY - innerHeight/2) / innerHeight;
+            gsap.to(heroBg, {duration: 1.2, x: x*20, y: y*10, scale: 1.02, ease: "power3.out"});
+        });
+        
+        // Floating stack cards
+        gsap.to('.stack-card', {
+            y: '+=20',
+            duration: 2,
+            ease: 'sine.inOut',
+            stagger: 0.2,
+            repeat: -1,
+            yoyo: true
+        });
+        
+        // Scroll reveal for sections
+        const observerOptions = {
+            threshold: 0.15,
+            rootMargin: '0px 0px -100px 0px'
+        };
+        
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, observerOptions);
+        
+        document.querySelectorAll('section').forEach(section => {
+            observer.observe(section);
+        });
+        
+        // Header scroll effect
+        const header = document.getElementById('mainHeader');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 100) {
+                header.classList.add('scrolled');
+            } else {
+                header.classList.remove('scrolled');
+            }
+        });
+        
+        // Smooth scrolling
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
     </script>
 </body>
 </html>
