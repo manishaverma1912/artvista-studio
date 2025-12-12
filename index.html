@@ -1,44 +1,96 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="dark">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ArtVista Studio - Painting & Sketches That Capture Emotion</title>
     <meta name="description" content="Hand-crafted animal portraits, nature-inspired paintings, and fine-detail sketches by a US-based artist.">
     
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        
+        /* ========== CSS VARIABLES ========== */
         :root {
-            --cream: #F5F1E8;
-            --graphite: #2C2C2C;
-            --gold: #C9A961;
-            --gold-end: #E6C88B;
-            --sage: #A8B5A0;
-            --rose: #D4B5B0;
-            --white: #FFFFFF;
-            --bg-light: #FBF9F7;
-            --bg-cream: #F6F2EA;
+            --gold-primary: #C9A961;
+            --gold-secondary: #E6C88B;
+            --bg-light: #FBF7F3;
+            --bg-white: #FFFFFF;
+            --text-dark: #2C2C2C;
             --text-muted: #6f6b6a;
-            --shadow-sm: 0 4px 12px rgba(0,0,0,0.06);
-            --shadow-md: 0 8px 24px rgba(0,0,0,0.08);
-            --shadow-lg: 0 16px 48px rgba(0,0,0,0.12);
-            --radius: 16px;
+            --shadow-sm: 0 2px 8px rgba(0,0,0,0.06);
+            --shadow-md: 0 8px 24px rgba(0,0,0,0.1);
+            --shadow-lg: 0 16px 48px rgba(0,0,0,0.15);
+            --shadow-xl: 0 24px 64px rgba(0,0,0,0.2);
+            --radius-sm: 8px;
+            --radius-md: 16px;
+            --radius-lg: 24px;
             --transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            --font-serif: 'Cormorant Garamond', serif;
+            --font-sans: 'Inter', sans-serif;
         }
+
+        /* Dark Mode Variables */
+        [data-theme="dark"] {
+            --bg-light: #0A1020;
+            --bg-white: #1A2332;
+            --text-dark: #F5F5F5;
+            --text-muted: #B8B8B8;
+            --shadow-sm: 0 2px 8px rgba(0,0,0,0.3);
+            --shadow-md: 0 8px 24px rgba(0,0,0,0.4);
+            --shadow-lg: 0 16px 48px rgba(0,0,0,0.5);
+            --shadow-xl: 0 24px 64px rgba(0,0,0,0.6);
+        }
+        
+        * { margin: 0; padding: 0; box-sizing: border-box; }
         
         html { scroll-behavior: smooth; }
         
         body {
-            font-family: 'Georgia', serif;
-            color: var(--graphite);
-            background: var(--cream);
+            font-family: var(--font-sans);
+            color: var(--text-dark);
+            background: var(--bg-light);
             line-height: 1.6;
             overflow-x: hidden;
+            transition: background 0.3s ease, color 0.3s ease;
         }
         
-        h1, h2, h3 { font-family: 'Palatino', 'Georgia', serif; font-weight: 400; }
+        h1, h2, h3 { font-family: var(--font-serif); font-weight: 400; }
         .container { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
+        
+        /* Theme Toggle */
+        .theme-toggle {
+            position: fixed;
+            top: 30px;
+            right: 30px;
+            z-index: 1001;
+            background: var(--bg-white);
+            border: 2px solid rgba(201, 169, 97, 0.2);
+            border-radius: 50px;
+            padding: 12px 24px;
+            cursor: pointer;
+            box-shadow: var(--shadow-md);
+            transition: var(--transition);
+            font-family: var(--font-sans);
+            font-weight: 600;
+            color: var(--text-dark);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .theme-toggle:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-lg);
+            border-color: var(--gold-primary);
+        }
+
+        .theme-toggle:focus {
+            outline: 3px solid var(--gold-primary);
+            outline-offset: 2px;
+        }
         
         /* Header */
         header {
@@ -55,9 +107,9 @@
         
         header.scrolled {
             top: 0;
-            background: rgba(255, 255, 255, 0.95);
+            background: rgba(26, 35, 50, 0.95);
             backdrop-filter: blur(10px);
-            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+            box-shadow: 0 4px 20px rgba(0,0,0,0.3);
         }
         
         .nav-inner {
@@ -69,10 +121,10 @@
             gap: 16px;
             padding: 12px 20px;
             border-radius: 999px;
-            background: rgba(255, 255, 255, 0.85);
+            background: rgba(26, 35, 50, 0.85);
             backdrop-filter: blur(10px);
             pointer-events: all;
-            box-shadow: 0 6px 20px rgba(0,0,0,0.06);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.3);
             transition: all 0.3s ease;
         }
         
@@ -82,23 +134,23 @@
             width: 44px;
             height: 44px;
             border-radius: 50%;
-            background: linear-gradient(135deg, var(--gold), var(--gold-end));
+            background: linear-gradient(135deg, var(--gold-primary), var(--gold-secondary));
             display: flex;
             align-items: center;
             justify-content: center;
             font-weight: 700;
             color: #fff;
-            box-shadow: 0 6px 20px rgba(201, 169, 97, 0.3);
+            box-shadow: 0 6px 20px rgba(201, 169, 97, 0.4);
             transition: transform 0.3s ease;
         }
         
         .logo-dot:hover { transform: rotate(360deg) scale(1.1); }
         
-        .brand h4 { margin: 0; font-size: 1rem; }
+        .brand h4 { margin: 0; font-size: 1rem; color: var(--text-dark); }
         
         nav { display: flex; align-items: center; gap: 8px; }
         nav a {
-            color: var(--graphite);
+            color: var(--text-dark);
             text-decoration: none;
             padding: 8px 16px;
             font-weight: 600;
@@ -107,13 +159,13 @@
         }
         
         nav a:hover {
-            background: rgba(201, 169, 97, 0.1);
+            background: rgba(201, 169, 97, 0.2);
             transform: translateY(-2px);
         }
         
         nav a.btn-ghost {
-            border: 1px solid rgba(0,0,0,0.1);
-            background: linear-gradient(90deg, var(--gold), var(--gold-end));
+            border: 1px solid rgba(201, 169, 97, 0.3);
+            background: linear-gradient(90deg, var(--gold-primary), var(--gold-secondary));
             color: white;
         }
         
@@ -131,7 +183,7 @@
         .hero-bg {
             position: absolute;
             inset: 0;
-            background: linear-gradient(180deg, rgba(246,242,234,0.9), rgba(246,242,234,0.85)),
+            background: linear-gradient(180deg, rgba(10, 16, 32, 0.95), rgba(10, 16, 32, 0.9)),
                         url('https://nyc3.digitaloceanspaces.com/bhindi-drive/files/28133c83-1f56-479e-83f4-c9aecb6d2e1a/2025-12-10T10-33-03-722Z-4bc0ad93-nano-banana-pro_1765362783377.jpg');
             background-size: cover;
             background-position: center;
@@ -142,8 +194,8 @@
         .hero-overlay {
             position: absolute;
             inset: 0;
-            background: radial-gradient(900px 300px at 10% 20%, rgba(255,255,255,0.4), transparent 20%),
-                        radial-gradient(700px 250px at 90% 80%, rgba(201,169,97,0.08), transparent 20%);
+            background: radial-gradient(900px 300px at 10% 20%, rgba(201, 169, 97, 0.15), transparent 20%),
+                        radial-gradient(700px 250px at 90% 80%, rgba(201, 169, 97, 0.1), transparent 20%);
             pointer-events: none;
         }
         
@@ -151,8 +203,8 @@
             position: absolute;
             inset: 0;
             pointer-events: none;
-            background-image: radial-gradient(circle at 10% 15%, rgba(255,255,255,0.05) 0 1px, transparent 1px),
-                              radial-gradient(circle at 60% 80%, rgba(0,0,0,0.02) 0 1px, transparent 1px);
+            background-image: radial-gradient(circle at 10% 15%, rgba(201, 169, 97, 0.1) 0 1px, transparent 1px),
+                              radial-gradient(circle at 60% 80%, rgba(201, 169, 97, 0.05) 0 1px, transparent 1px);
             background-size: 120px 120px, 200px 200px;
             mix-blend-mode: overlay;
             opacity: 0.9;
@@ -171,23 +223,28 @@
             display: inline-block;
             padding: 8px 16px;
             border-radius: 999px;
-            background: rgba(255, 255, 255, 0.7);
+            background: rgba(26, 35, 50, 0.7);
             backdrop-filter: blur(10px);
             font-weight: 600;
-            color: var(--graphite);
+            color: var(--gold-secondary);
             margin-bottom: 20px;
             opacity: 0;
             animation: fadeInUp 0.8s ease forwards;
+            border: 1px solid rgba(201, 169, 97, 0.3);
         }
         
         h1 {
             font-size: clamp(2.5rem, 6vw, 4rem);
             margin: 0;
-            color: var(--graphite);
+            color: var(--text-dark);
             line-height: 1.1;
             letter-spacing: -0.02em;
             opacity: 0;
             animation: fadeInUp 0.8s ease 0.2s forwards;
+            background: linear-gradient(135deg, var(--gold-primary), var(--gold-secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
         }
         
         .lead {
@@ -226,25 +283,25 @@
         }
         
         .btn-primary {
-            background: linear-gradient(90deg, var(--gold), var(--gold-end));
+            background: linear-gradient(90deg, var(--gold-primary), var(--gold-secondary));
             color: #fff;
-            box-shadow: 0 8px 25px rgba(201, 169, 97, 0.3);
+            box-shadow: 0 8px 25px rgba(201, 169, 97, 0.4);
         }
         
         .btn-primary:hover {
             transform: translateY(-4px);
-            box-shadow: 0 12px 35px rgba(201, 169, 97, 0.4);
+            box-shadow: 0 12px 35px rgba(201, 169, 97, 0.5);
         }
         
         .btn-ghost {
             background: transparent;
-            border: 2px solid rgba(0,0,0,0.1);
-            color: var(--graphite);
+            border: 2px solid rgba(201, 169, 97, 0.3);
+            color: var(--text-dark);
         }
         
         .btn-ghost:hover {
-            background: var(--graphite);
-            color: white;
+            background: rgba(201, 169, 97, 0.1);
+            border-color: var(--gold-primary);
             transform: translateY(-4px);
         }
         
@@ -262,17 +319,17 @@
             width: 220px;
             height: 300px;
             border-radius: 16px;
-            background: white;
-            box-shadow: 0 20px 60px rgba(0,0,0,0.15);
+            background: var(--bg-white);
+            box-shadow: 0 20px 60px rgba(0,0,0,0.4);
             overflow: hidden;
-            border: 1px solid rgba(0,0,0,0.05);
+            border: 1px solid rgba(201, 169, 97, 0.2);
             transition: all 0.4s ease;
             cursor: pointer;
         }
         
         .stack-card:hover {
             transform: translateY(-10px) rotate(0deg) !important;
-            box-shadow: 0 30px 80px rgba(0,0,0,0.2);
+            box-shadow: 0 30px 80px rgba(201, 169, 97, 0.3);
         }
         
         .stack-card img {
@@ -295,17 +352,21 @@
             transform: translateY(0);
         }
         
-        section:nth-child(even) { background: var(--white); }
+        section:nth-child(even) { background: var(--bg-white); }
         
         .section-title {
             text-align: center;
             font-size: clamp(2rem, 4vw, 2.8rem);
             margin-bottom: 20px;
-            color: var(--graphite);
+            color: var(--text-dark);
             position: relative;
             display: inline-block;
             left: 50%;
             transform: translateX(-50%);
+            background: linear-gradient(135deg, var(--gold-primary), var(--gold-secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
         }
         
         .section-title::after {
@@ -316,14 +377,14 @@
             transform: translateX(-50%);
             width: 80px;
             height: 4px;
-            background: linear-gradient(90deg, var(--gold), var(--gold-end));
+            background: linear-gradient(90deg, var(--gold-primary), var(--gold-secondary));
             border-radius: 2px;
         }
         
         .section-subtitle {
             text-align: center;
             font-size: 1.1rem;
-            color: #666;
+            color: var(--text-muted);
             margin-bottom: 60px;
             max-width: 700px;
             margin-left: auto;
@@ -355,23 +416,24 @@
             transition-delay: 0.2s;
         }
         
-        /* Gallery Section Styles */
+        /* Gallery Section */
         #artGallery {
             padding: 80px 20px;
-            background: linear-gradient(180deg, var(--bg-cream), var(--bg-light));
+            background: var(--bg-light);
         }
         
-        .gallery-header {
+        .gallery-hero {
             text-align: center;
-            margin-bottom: 48px;
+            margin-bottom: 80px;
         }
         
-        .gallery-title {
-            font-size: clamp(2.5rem, 5vw, 3.5rem);
-            font-weight: 400;
-            color: var(--graphite);
-            margin: 0 0 16px;
-            background: linear-gradient(135deg, var(--gold), var(--gold-end));
+        .gallery-hero h2 {
+            font-family: var(--font-serif);
+            font-size: clamp(2.5rem, 5vw, 4rem);
+            font-weight: 600;
+            color: var(--text-dark);
+            margin-bottom: 16px;
+            background: linear-gradient(135deg, var(--gold-primary), var(--gold-secondary));
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
@@ -380,83 +442,102 @@
         .gallery-divider {
             width: 100px;
             height: 4px;
-            background: linear-gradient(90deg, var(--gold), var(--gold-end));
+            background: linear-gradient(90deg, var(--gold-primary), var(--gold-secondary));
             margin: 0 auto;
             border-radius: 2px;
         }
         
         /* Featured Cards */
-        .featured-grid {
+        .featured-cards {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
             gap: 32px;
-            margin: 60px 0;
+            margin-bottom: 60px;
         }
         
         .featured-card {
             position: relative;
-            height: 400px;
-            border-radius: var(--radius);
-            overflow: hidden;
+            background: var(--bg-white);
+            border-radius: var(--radius-lg);
+            padding: 48px 32px;
+            text-align: center;
             box-shadow: var(--shadow-md);
-            cursor: pointer;
             transition: var(--transition);
-        }
-        
-        .featured-card:hover {
-            transform: translateY(-8px) scale(1.02);
-            box-shadow: var(--shadow-lg);
+            cursor: pointer;
+            overflow: hidden;
+            border: 1px solid rgba(201, 169, 97, 0.1);
         }
         
         .featured-card::before {
             content: '';
             position: absolute;
             inset: 0;
-            background: linear-gradient(180deg, transparent 40%, rgba(0,0,0,0.7));
+            background: linear-gradient(135deg, rgba(201, 169, 97, 0.1), rgba(230, 200, 139, 0.05));
+            opacity: 0;
+            transition: opacity 0.4s ease;
+        }
+        
+        .featured-card:hover::before {
+            opacity: 1;
+        }
+        
+        .featured-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 16px 48px rgba(201, 169, 97, 0.3);
+        }
+        
+        .featured-icon {
+            width: 120px;
+            height: 120px;
+            margin: 0 auto 24px;
+            border-radius: 50%;
+            overflow: hidden;
+            box-shadow: var(--shadow-md);
+            position: relative;
             z-index: 1;
         }
         
-        .featured-bg {
+        .featured-icon img {
             width: 100%;
             height: 100%;
-            transition: transform 0.6s ease;
+            object-fit: cover;
         }
         
-        .featured-card:hover .featured-bg {
-            transform: scale(1.1);
+        .featured-card h3 {
+            font-family: var(--font-serif);
+            font-size: 1.75rem;
+            font-weight: 600;
+            margin-bottom: 12px;
+            color: var(--text-dark);
+            position: relative;
+            z-index: 1;
         }
         
-        .featured-content {
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            padding: 32px;
-            z-index: 2;
-            text-align: center;
-        }
-        
-        .featured-title {
-            font-size: 2rem;
-            color: var(--white);
-            margin: 0 0 16px;
-            font-weight: 400;
+        .featured-card p {
+            color: var(--text-muted);
+            margin-bottom: 24px;
+            font-size: 1rem;
+            position: relative;
+            z-index: 1;
         }
         
         .featured-btn {
             display: inline-flex;
             align-items: center;
             gap: 8px;
-            padding: 12px 32px;
-            background: linear-gradient(90deg, var(--gold), var(--gold-end));
-            color: var(--white);
+            padding: 12px 28px;
+            background: linear-gradient(135deg, var(--gold-primary), var(--gold-secondary));
+            color: white;
             border: none;
-            border-radius: 999px;
-            font-size: 1rem;
-            font-weight: 700;
+            border-radius: 50px;
+            font-family: var(--font-sans);
+            font-weight: 600;
+            font-size: 0.95rem;
             cursor: pointer;
             transition: var(--transition);
             box-shadow: 0 4px 16px rgba(201, 169, 97, 0.4);
+            position: relative;
+            z-index: 1;
         }
         
         .featured-btn:hover {
@@ -464,58 +545,40 @@
             box-shadow: 0 8px 24px rgba(201, 169, 97, 0.5);
         }
         
-        /* Category Tabs */
-        .category-tabs {
+        /* Filter Tabs */
+        .filter-tabs {
             display: flex;
-            flex-wrap: wrap;
-            gap: 12px;
             justify-content: center;
-            margin: 48px 0;
+            gap: 12px;
+            margin-bottom: 60px;
+            flex-wrap: wrap;
         }
         
-        .category-chip {
-            padding: 12px 24px;
-            border-radius: 999px;
-            border: 2px solid rgba(0,0,0,0.08);
-            background: var(--white);
-            color: var(--text-muted);
-            font-weight: 700;
+        .filter-tab {
+            padding: 12px 28px;
+            background: var(--bg-white);
+            border: 2px solid rgba(201, 169, 97, 0.2);
+            border-radius: 50px;
+            font-family: var(--font-sans);
+            font-weight: 600;
             font-size: 0.95rem;
+            color: var(--text-dark);
             cursor: pointer;
             transition: var(--transition);
-            position: relative;
-            overflow: hidden;
-        }
-        
-        .category-chip::before {
-            content: '';
-            position: absolute;
-            inset: 0;
-            background: linear-gradient(90deg, var(--gold), var(--gold-end));
-            opacity: 0;
-            transition: opacity 0.3s ease;
-        }
-        
-        .category-chip span {
-            position: relative;
-            z-index: 1;
-        }
-        
-        .category-chip:hover {
-            transform: translateY(-2px);
             box-shadow: var(--shadow-sm);
         }
         
-        .category-chip.active {
-            border-color: var(--gold);
+        .filter-tab:hover {
+            border-color: var(--gold-primary);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-md);
         }
         
-        .category-chip.active::before {
-            opacity: 1;
-        }
-        
-        .category-chip.active span {
-            color: var(--white);
+        .filter-tab.active {
+            background: linear-gradient(135deg, var(--gold-primary), var(--gold-secondary));
+            color: white;
+            border-color: transparent;
+            box-shadow: 0 4px 16px rgba(201, 169, 97, 0.4);
         }
         
         /* Gallery Grid */
@@ -523,136 +586,164 @@
             display: grid;
             grid-template-columns: repeat(3, 1fr);
             gap: 32px;
-            margin-top: 48px;
+            margin-bottom: 60px;
         }
         
-        .gallery-card {
-            background: var(--white);
-            border-radius: var(--radius);
+        .artwork-card {
+            background: var(--bg-white);
+            border-radius: var(--radius-md);
             overflow: hidden;
-            box-shadow: var(--shadow-sm);
+            box-shadow: var(--shadow-md);
             transition: var(--transition);
             opacity: 0;
             transform: translateY(30px);
+            border: 1px solid rgba(201, 169, 97, 0.1);
         }
         
-        .gallery-card.visible {
+        .artwork-card.visible {
             opacity: 1;
             transform: translateY(0);
         }
         
-        .gallery-card:hover {
-            transform: translateY(-8px);
-            box-shadow: var(--shadow-lg);
+        .artwork-card:hover {
+            transform: translateY(-12px);
+            box-shadow: 0 16px 48px rgba(201, 169, 97, 0.3);
         }
         
-        .card-image-wrapper {
+        .artwork-image-wrapper {
             position: relative;
             height: 320px;
             overflow: hidden;
-            background: linear-gradient(135deg, rgba(168,181,160,0.1), rgba(212,181,176,0.1));
+            background: linear-gradient(135deg, rgba(201, 169, 97, 0.1), rgba(230, 200, 139, 0.05));
         }
         
-        .card-image {
+        .artwork-image {
             width: 100%;
             height: 100%;
             object-fit: cover;
             transition: transform 0.6s ease;
         }
         
-        .gallery-card:hover .card-image {
+        .artwork-card:hover .artwork-image {
             transform: scale(1.08);
         }
         
-        .card-badge {
+        .artwork-badge {
             position: absolute;
             top: 16px;
             left: 16px;
-            padding: 6px 14px;
-            background: linear-gradient(90deg, var(--gold), var(--gold-end));
-            color: var(--white);
-            border-radius: 999px;
+            padding: 6px 16px;
+            background: linear-gradient(135deg, var(--gold-primary), var(--gold-secondary));
+            color: white;
+            border-radius: 50px;
             font-size: 0.85rem;
-            font-weight: 700;
-            z-index: 2;
-            box-shadow: 0 4px 12px rgba(201, 169, 97, 0.3);
+            font-weight: 600;
+            box-shadow: 0 4px 12px rgba(201, 169, 97, 0.4);
         }
         
-        .card-content {
-            padding: 24px;
+        .artwork-content {
+            padding: 28px;
         }
         
-        .card-title {
+        .artwork-title {
+            font-family: var(--font-serif);
             font-size: 1.5rem;
             font-weight: 600;
-            margin: 0 0 8px;
-            color: var(--graphite);
+            margin-bottom: 8px;
+            color: var(--text-dark);
         }
         
-        .card-description {
-            font-size: 1rem;
+        .artwork-description {
             color: var(--text-muted);
-            margin: 0 0 16px;
-            line-height: 1.5;
+            font-size: 0.95rem;
+            margin-bottom: 20px;
+            line-height: 1.6;
         }
         
-        .card-footer {
+        .artwork-footer {
             display: flex;
             align-items: center;
             justify-content: space-between;
-            gap: 12px;
-            margin-top: 20px;
+            gap: 16px;
         }
         
-        .card-price {
-            font-size: 1.8rem;
-            font-weight: 900;
-            color: var(--gold);
+        .artwork-price {
+            font-family: var(--font-serif);
+            font-size: 1.75rem;
+            font-weight: 700;
+            color: var(--gold-primary);
         }
         
-        .card-actions {
+        .artwork-actions {
             display: flex;
             gap: 8px;
         }
         
         .card-btn {
-            padding: 10px 18px;
-            border-radius: 12px;
+            padding: 10px 20px;
+            border-radius: var(--radius-sm);
+            font-family: var(--font-sans);
+            font-weight: 600;
             font-size: 0.9rem;
-            font-weight: 700;
             cursor: pointer;
             transition: var(--transition);
             border: none;
-            white-space: nowrap;
         }
         
         .btn-add {
-            background: var(--white);
-            border: 2px solid rgba(0,0,0,0.08);
-            color: var(--graphite);
+            background: var(--bg-white);
+            color: var(--text-dark);
+            border: 2px solid rgba(201, 169, 97, 0.3);
         }
         
         .btn-add:hover {
-            background: var(--bg-cream);
+            background: rgba(201, 169, 97, 0.1);
+            border-color: var(--gold-primary);
             transform: translateY(-2px);
         }
         
         .btn-preview {
-            background: linear-gradient(90deg, var(--gold), var(--gold-end));
-            color: var(--white);
-            box-shadow: 0 4px 12px rgba(201, 169, 97, 0.3);
+            background: linear-gradient(135deg, var(--gold-primary), var(--gold-secondary));
+            color: white;
+            box-shadow: 0 4px 12px rgba(201, 169, 97, 0.4);
         }
         
         .btn-preview:hover {
             transform: translateY(-2px);
-            box-shadow: 0 6px 16px rgba(201, 169, 97, 0.4);
+            box-shadow: 0 6px 16px rgba(201, 169, 97, 0.5);
+        }
+        
+        /* Results Counter */
+        .results-counter {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: linear-gradient(135deg, var(--gold-primary), var(--gold-secondary));
+            color: white;
+            padding: 16px 24px;
+            border-radius: 50px;
+            box-shadow: var(--shadow-lg);
+            font-weight: 700;
+            z-index: 999;
+            cursor: pointer;
+            transition: var(--transition);
+            display: none;
+        }
+        
+        .results-counter.visible {
+            display: block;
+        }
+        
+        .results-counter:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 24px 64px rgba(201, 169, 97, 0.5);
         }
         
         /* Modal */
         .modal-overlay {
             position: fixed;
             inset: 0;
-            background: rgba(0,0,0,0.75);
+            background: rgba(0, 0, 0, 0.9);
             backdrop-filter: blur(8px);
             display: none;
             align-items: center;
@@ -669,17 +760,18 @@
         }
         
         .modal-content {
-            background: var(--white);
-            border-radius: var(--radius);
-            max-width: 1100px;
+            background: var(--bg-white);
+            border-radius: var(--radius-lg);
+            max-width: 1000px;
             width: 100%;
             max-height: 90vh;
             overflow: hidden;
             display: grid;
-            grid-template-columns: 1.5fr 1fr;
-            box-shadow: 0 24px 80px rgba(0,0,0,0.3);
+            grid-template-columns: 1.2fr 1fr;
+            box-shadow: var(--shadow-xl);
             transform: scale(0.9);
             transition: transform 0.3s ease;
+            border: 1px solid rgba(201, 169, 97, 0.2);
         }
         
         .modal-overlay.active .modal-content {
@@ -693,7 +785,7 @@
         }
         
         .modal-details {
-            padding: 40px;
+            padding: 48px;
             display: flex;
             flex-direction: column;
             gap: 20px;
@@ -702,188 +794,101 @@
         
         .modal-badge {
             display: inline-block;
-            padding: 6px 14px;
-            background: linear-gradient(90deg, var(--gold), var(--gold-end));
-            color: var(--white);
-            border-radius: 999px;
+            padding: 6px 16px;
+            background: linear-gradient(135deg, var(--gold-primary), var(--gold-secondary));
+            color: white;
+            border-radius: 50px;
             font-size: 0.85rem;
-            font-weight: 700;
+            font-weight: 600;
             width: fit-content;
         }
         
         .modal-title {
+            font-family: var(--font-serif);
             font-size: 2rem;
+            font-weight: 600;
+            color: var(--text-dark);
             margin: 0;
-            color: var(--graphite);
         }
         
         .modal-description {
-            font-size: 1.1rem;
             color: var(--text-muted);
-            line-height: 1.6;
+            font-size: 1.05rem;
+            line-height: 1.7;
         }
         
         .modal-price {
+            font-family: var(--font-serif);
             font-size: 2.5rem;
-            font-weight: 900;
-            color: var(--gold);
+            font-weight: 700;
+            color: var(--gold-primary);
         }
         
-        .modal-actions {
-            display: flex;
-            gap: 12px;
+        .modal-download {
+            padding: 16px 32px;
+            background: linear-gradient(135deg, var(--gold-primary), var(--gold-secondary));
+            color: white;
+            border: none;
+            border-radius: 50px;
+            font-family: var(--font-sans);
+            font-weight: 700;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: var(--transition);
+            box-shadow: 0 4px 16px rgba(201, 169, 97, 0.4);
             margin-top: auto;
         }
         
-        .modal-btn {
-            flex: 1;
-            padding: 16px;
-            border-radius: 12px;
-            font-size: 1rem;
-            font-weight: 700;
-            cursor: pointer;
-            transition: var(--transition);
-            border: none;
-        }
-        
-        .modal-btn-add {
-            background: var(--white);
-            border: 2px solid rgba(0,0,0,0.08);
-            color: var(--graphite);
-        }
-        
-        .modal-btn-add:hover {
-            background: var(--bg-cream);
-        }
-        
-        .modal-btn-buy {
-            background: linear-gradient(90deg, var(--gold), var(--gold-end));
-            color: var(--white);
-            box-shadow: 0 4px 16px rgba(201, 169, 97, 0.4);
-        }
-        
-        .modal-btn-buy:hover {
-            box-shadow: 0 6px 20px rgba(201, 169, 97, 0.5);
+        .modal-download:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(201, 169, 97, 0.5);
         }
         
         .modal-close {
             position: absolute;
             top: 20px;
             right: 20px;
-            width: 40px;
-            height: 40px;
+            width: 44px;
+            height: 44px;
             border-radius: 50%;
-            background: rgba(255,255,255,0.9);
-            border: none;
+            background: rgba(26, 35, 50, 0.95);
+            border: 1px solid rgba(201, 169, 97, 0.3);
             font-size: 1.5rem;
             cursor: pointer;
             display: flex;
             align-items: center;
             justify-content: center;
             transition: var(--transition);
-            z-index: 10;
+            box-shadow: var(--shadow-md);
+            color: var(--text-dark);
         }
         
         .modal-close:hover {
-            background: var(--white);
+            background: var(--bg-white);
             transform: rotate(90deg);
+            box-shadow: var(--shadow-lg);
         }
         
         /* Toast */
         .toast {
             position: fixed;
             bottom: 30px;
-            right: 30px;
-            background: linear-gradient(90deg, var(--gold), var(--gold-end));
-            color: var(--white);
-            padding: 16px 24px;
-            border-radius: 12px;
-            box-shadow: 0 8px 24px rgba(201, 169, 97, 0.4);
+            left: 50%;
+            transform: translateX(-50%) translateY(100px);
+            background: linear-gradient(135deg, var(--gold-primary), var(--gold-secondary));
+            color: white;
+            padding: 16px 32px;
+            border-radius: 50px;
+            box-shadow: var(--shadow-lg);
             font-weight: 700;
             z-index: 10000;
             opacity: 0;
-            transform: translateY(20px);
-            transition: var(--transition);
-            pointer-events: none;
+            transition: all 0.4s ease;
         }
         
         .toast.show {
             opacity: 1;
-            transform: translateY(0);
-        }
-        
-        /* Results Section */
-        #resultsSection {
-            padding: 60px 20px;
-            background: var(--bg-light);
-        }
-        
-        .results-container {
-            max-width: 1400px;
-            margin: 0 auto;
-        }
-        
-        .results-title {
-            font-size: 2rem;
-            color: var(--graphite);
-            margin-bottom: 32px;
-        }
-        
-        .results-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-            gap: 24px;
-        }
-        
-        .result-card {
-            background: var(--white);
-            border-radius: var(--radius);
-            overflow: hidden;
-            box-shadow: var(--shadow-sm);
-            transition: var(--transition);
-        }
-        
-        .result-card:hover {
-            transform: translateY(-4px);
-            box-shadow: var(--shadow-md);
-        }
-        
-        .result-image {
-            width: 100%;
-            height: 200px;
-            object-fit: cover;
-        }
-        
-        .result-content {
-            padding: 16px;
-        }
-        
-        .result-title {
-            font-size: 1.2rem;
-            font-weight: 700;
-            margin: 0 0 8px;
-        }
-        
-        .result-desc {
-            font-size: 0.95rem;
-            color: var(--text-muted);
-            margin: 0 0 12px;
-        }
-        
-        .result-actions {
-            display: flex;
-            gap: 8px;
-        }
-        
-        .result-btn {
-            flex: 1;
-            padding: 10px;
-            border-radius: 8px;
-            font-size: 0.9rem;
-            font-weight: 700;
-            cursor: pointer;
-            transition: var(--transition);
-            border: none;
+            transform: translateX(-50%) translateY(0);
         }
         
         /* Features */
@@ -897,12 +902,13 @@
         .feature-item {
             text-align: center;
             padding: 40px 30px;
-            background: white;
+            background: var(--bg-white);
             border-radius: 20px;
-            box-shadow: 0 5px 20px rgba(0,0,0,0.05);
+            box-shadow: var(--shadow-md);
             transition: all 0.4s ease;
             opacity: 0;
             transform: translateY(30px);
+            border: 1px solid rgba(201, 169, 97, 0.1);
         }
         
         section.visible .feature-item {
@@ -917,13 +923,13 @@
         
         .feature-item:hover {
             transform: translateY(-10px);
-            box-shadow: 0 15px 40px rgba(0,0,0,0.1);
+            box-shadow: 0 15px 40px rgba(201, 169, 97, 0.3);
         }
         
         .feature-icon {
             font-size: 3.5rem;
             margin-bottom: 20px;
-            color: var(--gold);
+            color: var(--gold-primary);
             transition: transform 0.3s ease;
         }
         
@@ -945,13 +951,13 @@
         }
         
         .pricing-card {
-            background: var(--white);
+            background: var(--bg-white);
             padding: 40px 30px;
             border-radius: 20px;
             text-align: center;
-            box-shadow: 0 10px 40px rgba(0,0,0,0.08);
+            box-shadow: var(--shadow-md);
             transition: all 0.4s ease;
-            border: 2px solid transparent;
+            border: 2px solid rgba(201, 169, 97, 0.1);
             opacity: 0;
             transform: translateY(30px) rotateX(10deg);
         }
@@ -966,20 +972,20 @@
         section.visible .pricing-card:nth-child(3) { transition-delay: 0.3s; }
         
         .pricing-card:hover {
-            border-color: var(--gold);
+            border-color: var(--gold-primary);
             transform: translateY(-15px) scale(1.05);
-            box-shadow: 0 20px 60px rgba(201, 169, 97, 0.3);
+            box-shadow: 0 20px 60px rgba(201, 169, 97, 0.4);
         }
         
         .pricing-card h3 {
             font-size: 1.8rem;
             margin-bottom: 15px;
-            color: var(--graphite);
+            color: var(--text-dark);
         }
         
         .price {
             font-size: 3rem;
-            color: var(--gold);
+            color: var(--gold-primary);
             margin: 20px 0;
             font-weight: bold;
         }
@@ -992,12 +998,12 @@
         
         .pricing-card li {
             padding: 10px 0;
-            border-bottom: 1px solid #eee;
+            border-bottom: 1px solid rgba(201, 169, 97, 0.1);
         }
         
         .pricing-card li:before {
             content: "✓ ";
-            color: var(--gold);
+            color: var(--gold-primary);
             font-weight: bold;
             margin-right: 10px;
         }
@@ -1011,14 +1017,15 @@
         }
         
         .testimonial-card {
-            background: var(--white);
+            background: var(--bg-white);
             padding: 40px;
             border-radius: 20px;
-            box-shadow: 0 10px 40px rgba(0,0,0,0.08);
+            box-shadow: var(--shadow-md);
             position: relative;
             transition: all 0.4s ease;
             opacity: 0;
             transform: translateY(30px);
+            border: 1px solid rgba(201, 169, 97, 0.1);
         }
         
         section.visible .testimonial-card {
@@ -1032,18 +1039,18 @@
         
         .testimonial-card:hover {
             transform: translateY(-10px);
-            box-shadow: 0 20px 60px rgba(0,0,0,0.12);
+            box-shadow: 0 20px 60px rgba(201, 169, 97, 0.3);
         }
         
         .testimonial-card:before {
             content: '"';
             font-size: 5rem;
-            color: var(--gold);
+            color: var(--gold-primary);
             opacity: 0.2;
             position: absolute;
             top: 10px;
             left: 20px;
-            font-family: Georgia, serif;
+            font-family: var(--font-serif);
         }
         
         .testimonial-text {
@@ -1056,7 +1063,7 @@
         
         .testimonial-author {
             font-weight: bold;
-            color: var(--gold);
+            color: var(--gold-primary);
         }
         
         /* Steps */
@@ -1070,12 +1077,13 @@
         .step-item {
             text-align: center;
             padding: 40px 30px;
-            background: var(--white);
+            background: var(--bg-white);
             border-radius: 20px;
-            box-shadow: 0 10px 40px rgba(0,0,0,0.08);
+            box-shadow: var(--shadow-md);
             transition: all 0.4s ease;
             opacity: 0;
             transform: translateY(30px);
+            border: 1px solid rgba(201, 169, 97, 0.1);
         }
         
         section.visible .step-item {
@@ -1089,13 +1097,13 @@
         
         .step-item:hover {
             transform: translateY(-10px);
-            box-shadow: 0 20px 60px rgba(0,0,0,0.12);
+            box-shadow: 0 20px 60px rgba(201, 169, 97, 0.3);
         }
         
         .step-number {
             width: 70px;
             height: 70px;
-            background: linear-gradient(135deg, var(--gold), var(--gold-end));
+            background: linear-gradient(135deg, var(--gold-primary), var(--gold-secondary));
             color: var(--white);
             border-radius: 50%;
             display: flex;
@@ -1104,7 +1112,7 @@
             font-size: 2rem;
             font-weight: bold;
             margin: 0 auto 20px;
-            box-shadow: 0 10px 30px rgba(201, 169, 97, 0.3);
+            box-shadow: 0 10px 30px rgba(201, 169, 97, 0.4);
             transition: transform 0.3s ease;
         }
         
@@ -1139,25 +1147,27 @@
             display: block;
             margin-bottom: 8px;
             font-weight: bold;
-            color: var(--graphite);
+            color: var(--text-dark);
         }
         
         .form-group input,
         .form-group textarea {
             width: 100%;
             padding: 15px;
-            border: 2px solid #ddd;
+            border: 2px solid rgba(201, 169, 97, 0.2);
             border-radius: 12px;
-            font-family: Georgia, serif;
+            font-family: var(--font-sans);
             font-size: 1rem;
             transition: all 0.3s ease;
+            background: var(--bg-white);
+            color: var(--text-dark);
         }
         
         .form-group input:focus,
         .form-group textarea:focus {
             outline: none;
-            border-color: var(--gold);
-            box-shadow: 0 0 0 4px rgba(201, 169, 97, 0.1);
+            border-color: var(--gold-primary);
+            box-shadow: 0 0 0 4px rgba(201, 169, 97, 0.2);
             transform: translateY(-2px);
         }
         
@@ -1169,29 +1179,30 @@
         .submit-btn {
             width: 100%;
             padding: 18px;
-            background: linear-gradient(90deg, var(--gold), var(--gold-end));
+            background: linear-gradient(90deg, var(--gold-primary), var(--gold-secondary));
             color: var(--white);
             border: none;
             border-radius: 999px;
             font-size: 1.1rem;
             cursor: pointer;
             transition: all 0.3s ease;
-            font-family: Georgia, serif;
+            font-family: var(--font-sans);
             font-weight: 700;
-            box-shadow: 0 8px 25px rgba(201, 169, 97, 0.3);
+            box-shadow: 0 8px 25px rgba(201, 169, 97, 0.4);
         }
         
         .submit-btn:hover {
             transform: translateY(-4px);
-            box-shadow: 0 12px 35px rgba(201, 169, 97, 0.4);
+            box-shadow: 0 12px 35px rgba(201, 169, 97, 0.5);
         }
         
         /* Footer */
         footer {
-            background: var(--graphite);
-            color: var(--white);
+            background: var(--bg-white);
+            color: var(--text-dark);
             text-align: center;
             padding: 60px 20px;
+            border-top: 1px solid rgba(201, 169, 97, 0.2);
         }
         
         .social-links {
@@ -1199,7 +1210,7 @@
         }
         
         .social-links a {
-            color: var(--white);
+            color: var(--text-dark);
             font-size: 1.8rem;
             margin: 0 15px;
             text-decoration: none;
@@ -1208,7 +1219,7 @@
         }
         
         .social-links a:hover {
-            color: var(--gold);
+            color: var(--gold-primary);
             transform: translateY(-5px) scale(1.2);
         }
         
@@ -1253,16 +1264,15 @@
             section { padding: 60px 0; }
             #artGallery { padding: 60px 16px; }
             .gallery-grid { grid-template-columns: 1fr; gap: 20px; }
-            .featured-grid { grid-template-columns: 1fr; gap: 20px; }
-            .featured-card { height: 320px; }
-            .category-tabs { gap: 8px; }
-            .category-chip { padding: 10px 18px; font-size: 0.9rem; }
-            .card-footer { flex-direction: column; align-items: flex-start; }
-            .card-actions { width: 100%; }
+            .featured-cards { grid-template-columns: 1fr; gap: 24px; }
+            .filter-tabs { gap: 8px; }
+            .filter-tab { padding: 10px 20px; font-size: 0.9rem; }
+            .artwork-footer { flex-direction: column; align-items: flex-start; }
+            .artwork-actions { width: 100%; }
             .card-btn { flex: 1; }
             .modal-details { padding: 24px; }
-            .modal-actions { flex-direction: column; }
-            .toast { bottom: 20px; right: 20px; left: 20px; }
+            .toast { bottom: 20px; left: 20px; right: 20px; transform: translateX(0) translateY(100px); }
+            .toast.show { transform: translateX(0) translateY(0); }
             .features-grid { grid-template-columns: 1fr; }
             .pricing-grid { grid-template-columns: 1fr; }
             .testimonials-grid { grid-template-columns: 1fr; }
@@ -1270,12 +1280,21 @@
             nav { display: none; }
             .logo-dot { width: 36px; height: 36px; font-size: 0.9rem; }
             .brand h4 { font-size: 0.9rem; }
+            .theme-toggle { top: 20px; right: 20px; padding: 10px 20px; font-size: 0.9rem; }
+            .results-counter { bottom: 20px; right: 20px; padding: 14px 20px; font-size: 0.9rem; }
         }
         
         @media (max-width: 480px) {
             h1 { font-size: 2rem; }
             .btn { padding: 12px 24px; font-size: 0.9rem; }
             .hero-ctas { flex-direction: column; }
+            .featured-icon { width: 100px; height: 100px; }
+            .featured-card h3 { font-size: 1.5rem; }
+        }
+        
+        *:focus-visible {
+            outline: 3px solid var(--gold-primary);
+            outline-offset: 2px;
         }
     </style>
     
@@ -1283,17 +1302,23 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
 </head>
 <body>
+    <!-- Theme Toggle -->
+    <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">
+        <span id="themeIcon">☀️</span>
+        <span id="themeText">Light</span>
+    </button>
+
     <header id="mainHeader">
         <div class="nav-inner">
             <div class="brand">
                 <div class="logo-dot">AV</div>
                 <div>
                     <h4>ArtVista Studio</h4>
-                    <small style="color:#666;font-weight:600;font-size:0.85rem">Painting & Sketches</small>
+                    <small style="color:var(--text-muted);font-weight:600;font-size:0.85rem">Painting & Sketches</small>
                 </div>
             </div>
             <nav>
-                <a href="#gallery">Portfolio</a>
+                <a href="#artGallery">Portfolio</a>
                 <a href="#pricing">Pricing</a>
                 <a href="#contact" class="btn-ghost">Request</a>
             </nav>
@@ -1338,25 +1363,56 @@
     <!-- Gallery Section -->
     <section id="artGallery">
         <div class="container">
-            <div class="gallery-header">
-                <h2 class="gallery-title">Artwork Gallery</h2>
-                <p class="section-subtitle">Explore our curated collection of hand-crafted paintings, sketches, and custom artwork</p>
+            <header class="gallery-hero">
+                <h2>Artwork Gallery</h2>
+                <p class="section-subtitle">Explore our curated collection of hand-crafted paintings, sketches, and custom artwork that capture emotion and beauty</p>
                 <div class="gallery-divider"></div>
+            </header>
+
+            <div class="featured-cards">
+                <article class="featured-card" data-category="Animal Art">
+                    <div class="featured-icon">
+                        <img src="https://images.unsplash.com/photo-1583337130417-3346a1be7dee?w=400&h=400&fit=crop" alt="Animal Art" loading="lazy">
+                    </div>
+                    <h3>Animal Art</h3>
+                    <p>Lifelike pet portraits and wildlife paintings</p>
+                    <button class="featured-btn" aria-label="Explore Animal Art">Explore →</button>
+                </article>
+
+                <article class="featured-card" data-category="Nature Paintings">
+                    <div class="featured-icon">
+                        <img src="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=400&h=400&fit=crop" alt="Nature Paintings" loading="lazy">
+                    </div>
+                    <h3>Nature Paintings</h3>
+                    <p>Serene landscapes and botanical studies</p>
+                    <button class="featured-btn" aria-label="Explore Nature Paintings">Explore →</button>
+                </article>
+
+                <article class="featured-card" data-category="Pencil Sketches">
+                    <div class="featured-icon">
+                        <img src="https://images.unsplash.com/photo-1513364776144-60967b0f800f?w=400&h=400&fit=crop" alt="Pencil Sketches" loading="lazy">
+                    </div>
+                    <h3>Pencil Sketches</h3>
+                    <p>Detailed graphite and charcoal drawings</p>
+                    <button class="featured-btn" aria-label="Explore Pencil Sketches">Explore →</button>
+                </article>
             </div>
 
-            <div class="featured-grid" id="featuredGrid"></div>
-            <div class="category-tabs" id="categoryTabs"></div>
+            <nav class="filter-tabs" role="tablist" aria-label="Artwork categories">
+                <button class="filter-tab active" data-filter="All" role="tab" aria-selected="true">All</button>
+                <button class="filter-tab" data-filter="Animal Art" role="tab" aria-selected="false">Animal Art</button>
+                <button class="filter-tab" data-filter="Nature Paintings" role="tab" aria-selected="false">Nature Paintings</button>
+                <button class="filter-tab" data-filter="Pencil Sketches" role="tab" aria-selected="false">Pencil Sketches</button>
+            </nav>
+
             <div class="gallery-grid" id="galleryGrid"></div>
         </div>
     </section>
 
-    <!-- Results Section -->
-    <section id="resultsSection" style="display:none;">
-        <div class="results-container">
-            <h3 class="results-title">Your Cart (<span id="cartCount">0</span>)</h3>
-            <div class="results-grid" id="resultsGrid"></div>
-        </div>
-    </section>
+    <!-- Results Counter -->
+    <div class="results-counter" id="resultsCounter">
+        <span id="resultsCount">0</span> items added
+    </div>
 
     <section id="features">
         <div class="container">
@@ -1510,18 +1566,15 @@
     </footer>
 
     <!-- Modal -->
-    <div class="modal-overlay" id="galleryModal">
+    <div class="modal-overlay" id="previewModal">
         <div class="modal-content">
             <img id="modalImage" class="modal-image" src="" alt="">
             <div class="modal-details">
                 <span id="modalBadge" class="modal-badge"></span>
-                <h3 id="modalTitle" class="modal-title"></h3>
+                <h2 id="modalTitle" class="modal-title"></h2>
                 <p id="modalDescription" class="modal-description"></p>
                 <div id="modalPrice" class="modal-price"></div>
-                <div class="modal-actions">
-                    <button class="modal-btn modal-btn-add" id="modalAddBtn">Add to Cart</button>
-                    <button class="modal-btn modal-btn-buy" id="modalBuyBtn">Buy Now</button>
-                </div>
+                <button class="modal-download" id="modalDownload">Download High-Res</button>
             </div>
             <button class="modal-close" id="modalClose">×</button>
         </div>
@@ -1531,380 +1584,359 @@
     <div class="toast" id="toast"></div>
 
     <script>
-        // Gallery Data
-        const galleryData = [
+        // Artwork Data
+        const artworks = [
             {
                 id: 1,
                 title: "Golden Retriever Portrait",
                 category: "Animal Art",
-                description: "Lifelike pet portrait capturing the warmth and personality of your beloved companion",
-                price: 180,
-                image: "https://images.unsplash.com/photo-1633722715463-d30f4f325e24?w=800&q=80"
+                description: "Warm and expressive pet portrait capturing the loyal spirit of man's best friend",
+                price: 280,
+                image: "https://images.unsplash.com/photo-1633722715463-d30f4f325e24?w=800&q=80",
+                imageHD: "https://images.unsplash.com/photo-1633722715463-d30f4f325e24?w=2400&q=90"
             },
             {
                 id: 2,
                 title: "Wild Fox Study",
                 category: "Animal Art",
-                description: "Detailed wildlife painting showcasing the elegance of nature's creatures",
-                price: 220,
-                image: "https://images.unsplash.com/photo-1474511320723-9a56873867b5?w=800&q=80"
+                description: "Detailed wildlife painting showcasing the elegance and cunning of nature's creatures",
+                price: 320,
+                image: "https://images.unsplash.com/photo-1474511320723-9a56873867b5?w=800&q=80",
+                imageHD: "https://images.unsplash.com/photo-1474511320723-9a56873867b5?w=2400&q=90"
             },
             {
                 id: 3,
-                title: "Cat Portrait",
+                title: "Majestic Cat Portrait",
                 category: "Animal Art",
-                description: "Custom feline portrait with expressive eyes and fine detail",
-                price: 160,
-                image: "https://images.unsplash.com/photo-1514888286974-6c03e2ca1dba?w=800&q=80"
+                description: "Elegant feline portrait with piercing eyes and graceful posture",
+                price: 260,
+                image: "https://images.unsplash.com/photo-1514888286974-6c03e2ca1dba?w=800&q=80",
+                imageHD: "https://images.unsplash.com/photo-1514888286974-6c03e2ca1dba?w=2400&q=90"
             },
             {
                 id: 4,
-                title: "Mountain Landscape",
+                title: "Mountain Serenity",
                 category: "Nature Paintings",
-                description: "Serene mountain vista with soft watercolor techniques",
-                price: 280,
-                image: "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=800&q=80"
+                description: "Peaceful mountain landscape with soft watercolor techniques and atmospheric depth",
+                price: 380,
+                image: "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=800&q=80",
+                imageHD: "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=2400&q=90"
             },
             {
                 id: 5,
-                title: "Forest Path",
+                title: "Forest Pathway",
                 category: "Nature Paintings",
-                description: "Peaceful woodland scene with dappled sunlight",
-                price: 240,
-                image: "https://images.unsplash.com/photo-1441974231531-c6227db76b6e?w=800&q=80"
+                description: "Enchanting woodland scene with dappled sunlight filtering through ancient trees",
+                price: 340,
+                image: "https://images.unsplash.com/photo-1441974231531-c6227db76b6e?w=800&q=80",
+                imageHD: "https://images.unsplash.com/photo-1441974231531-c6227db76b6e?w=2400&q=90"
             },
             {
                 id: 6,
-                title: "Ocean Sunset",
+                title: "Coastal Sunset",
                 category: "Nature Paintings",
-                description: "Vibrant coastal painting with warm golden tones",
-                price: 300,
-                image: "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=800&q=80"
+                description: "Vibrant ocean painting with warm golden tones and dramatic sky",
+                price: 420,
+                image: "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=800&q=80",
+                imageHD: "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=2400&q=90"
             },
             {
                 id: 7,
                 title: "Portrait Study",
                 category: "Pencil Sketches",
-                description: "High-detail graphite portrait with realistic shading",
-                price: 120,
-                image: "https://images.unsplash.com/photo-1513364776144-60967b0f800f?w=800&q=80"
+                description: "High-detail graphite portrait with masterful shading and realistic depth",
+                price: 180,
+                image: "https://images.unsplash.com/photo-1513364776144-60967b0f800f?w=800&q=80",
+                imageHD: "https://images.unsplash.com/photo-1513364776144-60967b0f800f?w=2400&q=90"
             },
             {
                 id: 8,
-                title: "Botanical Drawing",
+                title: "Botanical Illustration",
                 category: "Pencil Sketches",
-                description: "Delicate pencil sketch of botanical specimens",
-                price: 90,
-                image: "https://images.unsplash.com/photo-1469474968028-56623f02e42e?w=800&q=80"
+                description: "Delicate pencil sketch of botanical specimens with scientific precision",
+                price: 150,
+                image: "https://images.unsplash.com/photo-1469474968028-56623f02e42e?w=800&q=80",
+                imageHD: "https://images.unsplash.com/photo-1469474968028-56623f02e42e?w=2400&q=90"
             },
             {
                 id: 9,
-                title: "Architectural Sketch",
+                title: "Architectural Detail",
                 category: "Pencil Sketches",
-                description: "Detailed architectural line drawing with perspective",
-                price: 140,
-                image: "https://images.unsplash.com/photo-1581320543119-d640f5d90016?w=800&q=80"
+                description: "Intricate architectural drawing with perfect perspective and fine linework",
+                price: 220,
+                image: "https://images.unsplash.com/photo-1581320543119-d640f5d90016?w=800&q=80",
+                imageHD: "https://images.unsplash.com/photo-1581320543119-d640f5d90016?w=2400&q=90"
             }
         ];
 
-        const categories = ['All Artworks', 'Animal Art', 'Nature Paintings', 'Pencil Sketches'];
+        let currentFilter = 'All';
+        let resultsArray = [];
+        let currentModalArtwork = null;
 
-        const featuredCategories = [
-            { name: 'Animal Art', emoji: '🐾', bg: 'linear-gradient(135deg, rgba(168,181,160,0.3), rgba(212,181,176,0.3))' },
-            { name: 'Nature Paintings', emoji: '🌿', bg: 'linear-gradient(135deg, rgba(201,169,97,0.3), rgba(230,200,139,0.3))' },
-            { name: 'Pencil Sketches', emoji: '✏️', bg: 'linear-gradient(135deg, rgba(111,107,106,0.3), rgba(44,44,44,0.3))' }
-        ];
+        const galleryGrid = document.getElementById('galleryGrid');
+        const filterTabs = document.querySelectorAll('.filter-tab');
+        const featuredCards = document.querySelectorAll('.featured-card');
+        const previewModal = document.getElementById('previewModal');
+        const modalClose = document.getElementById('modalClose');
+        const modalImage = document.getElementById('modalImage');
+        const modalBadge = document.getElementById('modalBadge');
+        const modalTitle = document.getElementById('modalTitle');
+        const modalDescription = document.getElementById('modalDescription');
+        const modalPrice = document.getElementById('modalPrice');
+        const modalDownload = document.getElementById('modalDownload');
+        const toast = document.getElementById('toast');
+        const resultsCounter = document.getElementById('resultsCounter');
+        const resultsCount = document.getElementById('resultsCount');
+        const themeToggle = document.getElementById('themeToggle');
+        const themeIcon = document.getElementById('themeIcon');
+        const themeText = document.getElementById('themeText');
 
-        let cart = [];
-        let currentFilter = 'All Artworks';
-        let currentModalItem = null;
+        function renderGallery(filter = 'All') {
+            const filtered = filter === 'All' 
+                ? artworks 
+                : artworks.filter(art => art.category === filter);
 
-        document.addEventListener('DOMContentLoaded', () => {
-            gsap.registerPlugin(ScrollTrigger);
-            renderFeaturedCards();
-            renderCategoryTabs();
-            renderGalleryCards();
-            initAnimations();
-            initModalHandlers();
-            initScrollEffects();
-        });
-
-        function renderFeaturedCards() {
-            const grid = document.getElementById('featuredGrid');
-            grid.innerHTML = featuredCategories.map(cat => `
-                <div class="featured-card" data-category="${cat.name}">
-                    <div class="featured-bg" style="background: ${cat.bg}; display: flex; align-items: center; justify-content: center; font-size: 8rem;">${cat.emoji}</div>
-                    <div class="featured-content">
-                        <h3 class="featured-title">${cat.name}</h3>
-                        <button class="featured-btn">Explore →</button>
+            galleryGrid.innerHTML = filtered.map(art => `
+                <article class="artwork-card" data-id="${art.id}">
+                    <div class="artwork-image-wrapper">
+                        <span class="artwork-badge">${art.category}</span>
+                        <img class="artwork-image" src="${art.image}" alt="${art.title}" loading="lazy">
                     </div>
-                </div>
-            `).join('');
-
-            document.querySelectorAll('.featured-card').forEach(card => {
-                card.addEventListener('click', () => {
-                    const category = card.dataset.category;
-                    filterGallery(category);
-                    document.getElementById('galleryGrid').scrollIntoView({ behavior: 'smooth', block: 'start' });
-                });
-            });
-        }
-
-        function renderCategoryTabs() {
-            const tabs = document.getElementById('categoryTabs');
-            tabs.innerHTML = categories.map((cat, i) => `
-                <button class="category-chip ${i === 0 ? 'active' : ''}" data-category="${cat}">
-                    <span>${cat}</span>
-                </button>
-            `).join('');
-
-            document.querySelectorAll('.category-chip').forEach(chip => {
-                chip.addEventListener('click', () => {
-                    document.querySelectorAll('.category-chip').forEach(c => c.classList.remove('active'));
-                    chip.classList.add('active');
-                    filterGallery(chip.dataset.category);
-                });
-            });
-        }
-
-        function renderGalleryCards(filter = 'All Artworks') {
-            const grid = document.getElementById('galleryGrid');
-            const filtered = filter === 'All Artworks' 
-                ? galleryData 
-                : galleryData.filter(item => item.category === filter);
-
-            grid.innerHTML = filtered.map(item => `
-                <article class="gallery-card" data-id="${item.id}">
-                    <div class="card-image-wrapper">
-                        <span class="card-badge">${item.category}</span>
-                        <img class="card-image" src="${item.image}" alt="${item.title}" loading="lazy">
-                    </div>
-                    <div class="card-content">
-                        <h3 class="card-title">${item.title}</h3>
-                        <p class="card-description">${item.description}</p>
-                        <div class="card-footer">
-                            <div class="card-price">$${item.price}</div>
-                            <div class="card-actions">
-                                <button class="card-btn btn-add" data-id="${item.id}">Add</button>
-                                <button class="card-btn btn-preview" data-id="${item.id}">Preview</button>
+                    <div class="artwork-content">
+                        <h3 class="artwork-title">${art.title}</h3>
+                        <p class="artwork-description">${art.description}</p>
+                        <div class="artwork-footer">
+                            <div class="artwork-price">$${art.price}</div>
+                            <div class="artwork-actions">
+                                <button class="card-btn btn-add" data-id="${art.id}">Add</button>
+                                <button class="card-btn btn-preview" data-id="${art.id}">Preview</button>
                             </div>
                         </div>
                     </div>
                 </article>
             `).join('');
 
+            setTimeout(() => {
+                const cards = document.querySelectorAll('.artwork-card');
+                cards.forEach((card, index) => {
+                    setTimeout(() => card.classList.add('visible'), index * 100);
+                });
+            }, 50);
+
+            attachCardListeners();
+        }
+
+        function attachCardListeners() {
             document.querySelectorAll('.btn-add').forEach(btn => {
                 btn.addEventListener('click', (e) => {
-                    e.stopPropagation();
-                    addToCart(parseInt(btn.dataset.id));
+                    addToResults(parseInt(e.target.dataset.id));
                 });
             });
 
             document.querySelectorAll('.btn-preview').forEach(btn => {
                 btn.addEventListener('click', (e) => {
-                    e.stopPropagation();
-                    openModal(parseInt(btn.dataset.id));
+                    openPreviewModal(parseInt(e.target.dataset.id));
                 });
             });
-
-            setTimeout(() => {
-                document.querySelectorAll('.gallery-card').forEach((card, i) => {
-                    setTimeout(() => card.classList.add('visible'), i * 80);
-                });
-            }, 100);
         }
 
         function filterGallery(category) {
             currentFilter = category;
-            gsap.to('.gallery-card', {
-                opacity: 0,
-                y: 20,
-                duration: 0.3,
-                stagger: 0.03,
-                onComplete: () => renderGalleryCards(category)
+            
+            filterTabs.forEach(tab => {
+                if (tab.dataset.filter === category) {
+                    tab.classList.add('active');
+                    tab.setAttribute('aria-selected', 'true');
+                } else {
+                    tab.classList.remove('active');
+                    tab.setAttribute('aria-selected', 'false');
+                }
             });
+
+            const cards = document.querySelectorAll('.artwork-card');
+            cards.forEach(card => {
+                card.style.opacity = '0';
+                card.style.transform = 'translateY(20px)';
+            });
+
+            setTimeout(() => renderGallery(category), 300);
         }
 
-        function addToCart(id) {
-            const item = galleryData.find(i => i.id === id);
-            if (!item) return;
-            cart.push(item);
-            updateCartDisplay();
-            showToast(`✓ ${item.title} added to cart`);
+        filterTabs.forEach(tab => {
+            tab.addEventListener('click', () => filterGallery(tab.dataset.filter));
+        });
+
+        featuredCards.forEach(card => {
+            const btn = card.querySelector('.featured-btn');
+            btn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                const category = card.dataset.category;
+                filterGallery(category);
+                setTimeout(() => {
+                    galleryGrid.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }, 100);
+            });
+        });
+
+        function addToResults(id) {
+            const artwork = artworks.find(art => art.id === id);
+            if (!artwork) return;
+            resultsArray.push(artwork);
+            updateResultsCounter();
+            showToast(`Added "${artwork.title}" to results`);
         }
 
-        function updateCartDisplay() {
-            const section = document.getElementById('resultsSection');
-            const grid = document.getElementById('resultsGrid');
-            const count = document.getElementById('cartCount');
-
-            count.textContent = cart.length;
-
-            if (cart.length === 0) {
-                section.style.display = 'none';
-                return;
+        function updateResultsCounter() {
+            resultsCount.textContent = resultsArray.length;
+            if (resultsArray.length > 0) {
+                resultsCounter.classList.add('visible');
+            } else {
+                resultsCounter.classList.remove('visible');
             }
-
-            section.style.display = 'block';
-            grid.innerHTML = cart.map((item, index) => `
-                <div class="result-card">
-                    <img class="result-image" src="${item.image}" alt="${item.title}">
-                    <div class="result-content">
-                        <h4 class="result-title">${item.title}</h4>
-                        <p class="result-desc">${item.description}</p>
-                        <div class="result-actions">
-                            <button class="result-btn" style="background: linear-gradient(90deg, #C9A961, #E6C88B); color: white;" onclick="window.open('${item.image}', '_blank')">View</button>
-                            <button class="result-btn" style="background: white; border: 2px solid rgba(0,0,0,0.08);" onclick="removeFromCart(${index})">Remove</button>
-                        </div>
-                    </div>
-                </div>
-            `).join('');
         }
 
-        function removeFromCart(index) {
-            cart.splice(index, 1);
-            updateCartDisplay();
-            showToast('Item removed from cart');
-        }
+        resultsCounter.addEventListener('click', () => {
+            if (resultsArray.length === 0) return;
+            const items = resultsArray.map(art => `• ${art.title} - $${art.price}`).join('\n');
+            alert(`Results Array (${resultsArray.length} items):\n\n${items}`);
+        });
 
         function showToast(message) {
-            const toast = document.getElementById('toast');
             toast.textContent = message;
             toast.classList.add('show');
             setTimeout(() => toast.classList.remove('show'), 3000);
         }
 
-        function openModal(id) {
-            const item = galleryData.find(i => i.id === id);
-            if (!item) return;
+        function openPreviewModal(id) {
+            const artwork = artworks.find(art => art.id === id);
+            if (!artwork) return;
 
-            currentModalItem = item;
-            const modal = document.getElementById('galleryModal');
-            
-            document.getElementById('modalImage').src = item.image;
-            document.getElementById('modalBadge').textContent = item.category;
-            document.getElementById('modalTitle').textContent = item.title;
-            document.getElementById('modalDescription').textContent = item.description;
-            document.getElementById('modalPrice').textContent = `$${item.price}`;
+            currentModalArtwork = artwork;
+            modalImage.src = artwork.image;
+            modalImage.alt = artwork.title;
+            modalBadge.textContent = artwork.category;
+            modalTitle.textContent = artwork.title;
+            modalDescription.textContent = artwork.description;
+            modalPrice.textContent = `$${artwork.price}`;
 
-            modal.classList.add('active');
+            previewModal.classList.add('active');
             document.body.style.overflow = 'hidden';
+            modalClose.focus();
         }
 
-        function closeModal() {
-            const modal = document.getElementById('galleryModal');
-            modal.classList.remove('active');
+        function closePreviewModal() {
+            previewModal.classList.remove('active');
             document.body.style.overflow = '';
-            currentModalItem = null;
+            currentModalArtwork = null;
         }
 
-        function initModalHandlers() {
-            document.getElementById('modalClose').addEventListener('click', closeModal);
-            document.getElementById('galleryModal').addEventListener('click', (e) => {
-                if (e.target.id === 'galleryModal') closeModal();
-            });
+        modalClose.addEventListener('click', closePreviewModal);
+        previewModal.addEventListener('click', (e) => {
+            if (e.target === previewModal) closePreviewModal();
+        });
 
-            document.getElementById('modalAddBtn').addEventListener('click', () => {
-                if (currentModalItem) addToCart(currentModalItem.id);
-            });
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && previewModal.classList.contains('active')) {
+                closePreviewModal();
+            }
+        });
 
-            document.getElementById('modalBuyBtn').addEventListener('click', () => {
-                if (currentModalItem) {
-                    showToast(`Proceeding to checkout for ${currentModalItem.title}`);
-                    closeModal();
+        modalDownload.addEventListener('click', () => {
+            if (!currentModalArtwork) return;
+            const link = document.createElement('a');
+            link.href = currentModalArtwork.imageHD;
+            link.download = `${currentModalArtwork.title.replace(/\s+/g, '_')}_HighRes.jpg`;
+            link.target = '_blank';
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+            showToast('Download started!');
+        });
+
+        function toggleTheme() {
+            const currentTheme = document.documentElement.getAttribute('data-theme');
+            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+            
+            document.documentElement.setAttribute('data-theme', newTheme);
+            localStorage.setItem('theme', newTheme);
+            
+            if (newTheme === 'dark') {
+                themeIcon.textContent = '☀️';
+                themeText.textContent = 'Light';
+            } else {
+                themeIcon.textContent = '🌙';
+                themeText.textContent = 'Dark';
+            }
+        }
+
+        const savedTheme = localStorage.getItem('theme') || 'dark';
+        document.documentElement.setAttribute('data-theme', savedTheme);
+        if (savedTheme === 'dark') {
+            themeIcon.textContent = '☀️';
+            themeText.textContent = 'Light';
+        }
+
+        themeToggle.addEventListener('click', toggleTheme);
+
+        renderGallery();
+
+        gsap.registerPlugin(ScrollTrigger);
+        
+        const heroBg = document.getElementById('heroBg');
+        document.addEventListener('mousemove', (e) => {
+            const {innerWidth, innerHeight} = window;
+            const x = (e.clientX - innerWidth/2) / innerWidth;
+            const y = (e.clientY - innerHeight/2) / innerHeight;
+            gsap.to(heroBg, {duration: 1.2, x: x*20, y: y*10, scale: 1.02, ease: "power3.out"});
+        });
+        
+        gsap.to('.stack-card', {
+            y: '+=20',
+            duration: 2,
+            ease: 'sine.inOut',
+            stagger: 0.2,
+            repeat: -1,
+            yoyo: true
+        });
+
+        const observerOptions = {
+            threshold: 0.15,
+            rootMargin: '0px 0px -100px 0px'
+        };
+        
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
                 }
             });
-
-            document.addEventListener('keydown', (e) => {
-                if (e.key === 'Escape' && document.getElementById('galleryModal').classList.contains('active')) {
-                    closeModal();
+        }, observerOptions);
+        
+        document.querySelectorAll('section').forEach(section => {
+            observer.observe(section);
+        });
+        
+        const header = document.getElementById('mainHeader');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 100) {
+                header.classList.add('scrolled');
+            } else {
+                header.classList.remove('scrolled');
+            }
+        });
+        
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
                 }
             });
-        }
-
-        function initAnimations() {
-            const heroBg = document.getElementById('heroBg');
-            document.addEventListener('mousemove', (e) => {
-                const {innerWidth, innerHeight} = window;
-                const x = (e.clientX - innerWidth/2) / innerWidth;
-                const y = (e.clientY - innerHeight/2) / innerHeight;
-                gsap.to(heroBg, {duration: 1.2, x: x*20, y: y*10, scale: 1.02, ease: "power3.out"});
-            });
-            
-            gsap.to('.stack-card', {
-                y: '+=20',
-                duration: 2,
-                ease: 'sine.inOut',
-                stagger: 0.2,
-                repeat: -1,
-                yoyo: true
-            });
-
-            gsap.from('.featured-card', {
-                scrollTrigger: {
-                    trigger: '.featured-grid',
-                    start: 'top 80%'
-                },
-                y: 50,
-                opacity: 0,
-                duration: 0.8,
-                stagger: 0.15,
-                ease: 'power3.out'
-            });
-
-            gsap.from('.category-chip', {
-                scrollTrigger: {
-                    trigger: '.category-tabs',
-                    start: 'top 80%'
-                },
-                y: 20,
-                opacity: 0,
-                duration: 0.6,
-                stagger: 0.08,
-                ease: 'power2.out'
-            });
-        }
-
-        function initScrollEffects() {
-            const observerOptions = {
-                threshold: 0.15,
-                rootMargin: '0px 0px -100px 0px'
-            };
-            
-            const observer = new IntersectionObserver((entries) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        entry.target.classList.add('visible');
-                    }
-                });
-            }, observerOptions);
-            
-            document.querySelectorAll('section').forEach(section => {
-                observer.observe(section);
-            });
-            
-            const header = document.getElementById('mainHeader');
-            window.addEventListener('scroll', () => {
-                if (window.scrollY > 100) {
-                    header.classList.add('scrolled');
-                } else {
-                    header.classList.remove('scrolled');
-                }
-            });
-            
-            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-                anchor.addEventListener('click', function (e) {
-                    e.preventDefault();
-                    const target = document.querySelector(this.getAttribute('href'));
-                    if (target) {
-                        target.scrollIntoView({
-                            behavior: 'smooth',
-                            block: 'start'
-                        });
-                    }
-                });
-            });
-        }
+        });
     </script>
 </body>
 </html>
