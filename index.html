@@ -1250,6 +1250,275 @@
             color: var(--gold-primary);
             transform: translateY(-5px) scale(1.2);
         }
+
+        /* ========== PAINT MASCOT STYLES ========== */
+
+        .paint-mascot {
+            position: fixed;
+            width: 80px;
+            height: 120px;
+            pointer-events: none;
+            z-index: 9998;
+            transition: transform 0.1s ease-out;
+            filter: drop-shadow(0 8px 16px rgba(201, 169, 97, 0.3));
+        }
+
+        .mascot-body {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            transform-origin: center bottom;
+            animation: mascotFloat 3s ease-in-out infinite;
+        }
+
+        .brush-handle {
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 12px;
+            height: 70px;
+            background: linear-gradient(180deg, #8B4513 0%, #A0522D 50%, #8B4513 100%);
+            border-radius: 6px;
+            box-shadow: inset -2px 0 4px rgba(0,0,0,0.3), inset 2px 0 4px rgba(255,255,255,0.2);
+        }
+
+        .brush-handle::before {
+            content: '';
+            position: absolute;
+            top: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 14px;
+            height: 3px;
+            background: #DAA520;
+            border-radius: 2px;
+            box-shadow: 0 15px 0 #DAA520, 0 30px 0 #DAA520;
+        }
+
+        .brush-ferrule {
+            position: absolute;
+            bottom: 65px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 20px;
+            height: 15px;
+            background: linear-gradient(180deg, #C0C0C0 0%, #A8A8A8 50%, #C0C0C0 100%);
+            border-radius: 3px;
+            box-shadow: inset 0 2px 4px rgba(255,255,255,0.5), inset 0 -2px 4px rgba(0,0,0,0.3);
+        }
+
+        .brush-bristles {
+            position: absolute;
+            bottom: 75px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 24px;
+            height: 30px;
+            display: flex;
+            justify-content: space-around;
+            align-items: flex-end;
+        }
+
+        .bristle {
+            width: 3px;
+            height: 100%;
+            background: linear-gradient(180deg, #F5F5DC 0%, #E6D5B8 100%);
+            border-radius: 2px 2px 0 0;
+            animation: bristleWiggle 2s ease-in-out infinite;
+        }
+
+        .bristle:nth-child(1) { height: 28px; animation-delay: 0s; }
+        .bristle:nth-child(2) { height: 30px; animation-delay: 0.1s; }
+        .bristle:nth-child(3) { height: 32px; animation-delay: 0.2s; }
+        .bristle:nth-child(4) { height: 30px; animation-delay: 0.3s; }
+        .bristle:nth-child(5) { height: 28px; animation-delay: 0.4s; }
+
+        .paint-drip {
+            position: absolute;
+            bottom: 100px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 8px;
+            height: 12px;
+            background: var(--gold-primary, #C9A961);
+            border-radius: 0 0 50% 50%;
+            animation: paintDrip 4s ease-in-out infinite;
+            opacity: 0;
+        }
+
+        .sparkle {
+            position: absolute;
+            width: 8px;
+            height: 8px;
+            background: radial-gradient(circle, #FFD700 0%, transparent 70%);
+            border-radius: 50%;
+            animation: sparkleFloat 2s ease-in-out infinite;
+            opacity: 0;
+        }
+
+        .sparkle-1 {
+            top: 10px;
+            left: -10px;
+            animation-delay: 0s;
+        }
+
+        .sparkle-2 {
+            top: 20px;
+            right: -10px;
+            animation-delay: 0.7s;
+        }
+
+        .sparkle-3 {
+            top: 5px;
+            left: 50%;
+            animation-delay: 1.4s;
+        }
+
+        .mascot-bubble {
+            position: absolute;
+            top: -50px;
+            left: 50%;
+            transform: translateX(-50%) scale(0);
+            background: white;
+            padding: 8px 16px;
+            border-radius: 16px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            white-space: nowrap;
+            opacity: 0;
+            transition: all 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            pointer-events: none;
+            z-index: 10;
+        }
+
+        [data-theme="dark"] .mascot-bubble {
+            background: #161b22;
+            color: #e6edf3;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.5);
+        }
+
+        .mascot-bubble::after {
+            content: '';
+            position: absolute;
+            bottom: -8px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 0;
+            height: 0;
+            border-left: 8px solid transparent;
+            border-right: 8px solid transparent;
+            border-top: 8px solid white;
+        }
+
+        [data-theme="dark"] .mascot-bubble::after {
+            border-top-color: #161b22;
+        }
+
+        .mascot-bubble.show {
+            transform: translateX(-50%) scale(1);
+            opacity: 1;
+        }
+
+        .bubble-text {
+            font-family: 'Inter', sans-serif;
+            font-size: 13px;
+            font-weight: 600;
+            color: #2C2C2C;
+        }
+
+        [data-theme="dark"] .bubble-text {
+            color: #e6edf3;
+        }
+
+        #paintTrailCanvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 9997;
+            opacity: 0.6;
+        }
+
+        @keyframes mascotFloat {
+            0%, 100% {
+                transform: translateY(0) rotate(-5deg);
+            }
+            50% {
+                transform: translateY(-15px) rotate(5deg);
+            }
+        }
+
+        @keyframes bristleWiggle {
+            0%, 100% {
+                transform: translateX(0) scaleY(1);
+            }
+            25% {
+                transform: translateX(-1px) scaleY(0.95);
+            }
+            75% {
+                transform: translateX(1px) scaleY(1.05);
+            }
+        }
+
+        @keyframes paintDrip {
+            0% {
+                opacity: 0;
+                transform: translateX(-50%) translateY(0);
+            }
+            20% {
+                opacity: 1;
+            }
+            100% {
+                opacity: 0;
+                transform: translateX(-50%) translateY(20px);
+            }
+        }
+
+        @keyframes sparkleFloat {
+            0% {
+                opacity: 0;
+                transform: translateY(0) scale(0);
+            }
+            50% {
+                opacity: 1;
+                transform: translateY(-20px) scale(1);
+            }
+            100% {
+                opacity: 0;
+                transform: translateY(-40px) scale(0);
+            }
+        }
+
+        .paint-mascot.excited .mascot-body {
+            animation: mascotExcited 0.5s ease-in-out;
+        }
+
+        .paint-mascot.painting .brush-bristles {
+            animation: brushPaint 0.8s ease-in-out;
+        }
+
+        @keyframes mascotExcited {
+            0%, 100% {
+                transform: scale(1) rotate(0deg);
+            }
+            25% {
+                transform: scale(1.1) rotate(-10deg);
+            }
+            75% {
+                transform: scale(1.1) rotate(10deg);
+            }
+        }
+
+        @keyframes brushPaint {
+            0%, 100% {
+                transform: rotate(0deg);
+            }
+            50% {
+                transform: rotate(15deg);
+            }
+        }
         
         /* Animations */
         @keyframes fadeInUp {
@@ -1310,6 +1579,29 @@
             .brand h4 { font-size: 0.9rem; }
             .theme-toggle { top: 20px; right: 20px; padding: 10px 20px; font-size: 0.9rem; }
             .results-counter { bottom: 20px; right: 20px; padding: 14px 20px; font-size: 0.9rem; }
+            .paint-mascot {
+                width: 60px;
+                height: 90px;
+            }
+            .brush-handle {
+                width: 10px;
+                height: 50px;
+            }
+            .brush-ferrule {
+                bottom: 45px;
+                width: 16px;
+                height: 12px;
+            }
+            .brush-bristles {
+                bottom: 55px;
+                width: 20px;
+                height: 24px;
+            }
+            .mascot-bubble {
+                top: -40px;
+                font-size: 11px;
+                padding: 6px 12px;
+            }
         }
         
         @media (max-width: 480px) {
@@ -1318,6 +1610,12 @@
             .hero-ctas { flex-direction: column; }
             .featured-icon { width: 100px; height: 100px; }
             .featured-card h3 { font-size: 1.5rem; }
+            .paint-mascot {
+                display: none;
+            }
+            #paintTrailCanvas {
+                display: none;
+            }
         }
         
         *:focus-visible {
@@ -1339,7 +1637,6 @@
     <header id="mainHeader">
         <div class="nav-inner">
             <div class="brand">
-                <!-- SVG Logo as fallback -->
                 <svg class="site-logo" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
                     <rect width="100" height="100" rx="12" fill="url(#logoGradient)"/>
                     <text x="50" y="65" font-family="Georgia, serif" font-size="48" font-weight="700" fill="white" text-anchor="middle">AV</text>
@@ -1398,7 +1695,6 @@
         </div>
     </section>
 
-    <!-- Gallery Section -->
     <section id="artGallery">
         <div class="container">
             <header class="gallery-hero">
@@ -1447,7 +1743,6 @@
         </div>
     </section>
 
-    <!-- Results Counter -->
     <div class="results-counter" id="resultsCounter">
         <span id="resultsCount">0</span> items added
     </div>
@@ -1603,7 +1898,6 @@
         </div>
     </footer>
 
-    <!-- Modal -->
     <div class="modal-overlay" id="previewModal">
         <div class="modal-content">
             <img id="modalImage" class="modal-image" src="" alt="">
@@ -1618,11 +1912,33 @@
         </div>
     </div>
 
-    <!-- Toast -->
     <div class="toast" id="toast"></div>
 
+    <!-- ========== PAINTBRUSH MASCOT ========== -->
+    <div id="paintMascot" class="paint-mascot">
+        <div class="mascot-body">
+            <div class="brush-handle"></div>
+            <div class="brush-ferrule"></div>
+            <div class="brush-bristles">
+                <div class="bristle"></div>
+                <div class="bristle"></div>
+                <div class="bristle"></div>
+                <div class="bristle"></div>
+                <div class="bristle"></div>
+            </div>
+            <div class="paint-drip"></div>
+            <div class="sparkle sparkle-1"></div>
+            <div class="sparkle sparkle-2"></div>
+            <div class="sparkle sparkle-3"></div>
+        </div>
+        <div class="mascot-bubble">
+            <span class="bubble-text">Let's create art! 🎨</span>
+        </div>
+    </div>
+
+    <canvas id="paintTrailCanvas"></canvas>
+
     <script>
-        // Artwork Data - Updated Pencil Sketch Image
         const artworks = [
             {
                 id: 1,
@@ -1975,6 +2291,276 @@
                 }
             });
         });
+
+        // ========== PAINT MASCOT CONTROLLER ==========
+        (function() {
+            'use strict';
+            
+            const config = {
+                followSpeed: 0.08,
+                trailEnabled: true,
+                trailFadeSpeed: 0.02,
+                trailColor: 'rgba(201, 169, 97, 0.4)',
+                trailWidth: 3,
+                bubbleMessages: {
+                    hero: "Welcome to ArtVista! 🎨",
+                    about: "Every piece tells a story ✨",
+                    artGallery: "Let's explore art together! 🖼️",
+                    features: "Quality craftsmanship 🖌️",
+                    pricing: "Affordable masterpieces 💰",
+                    testimonials: "Happy clients! 😊",
+                    commission: "Ready to create? 🎨",
+                    contact: "Let's chat! 💬",
+                    default: "Creating magic! ✨"
+                }
+            };
+            
+            let mascot, bubble, bubbleText, canvas, ctx;
+            let mouseX = window.innerWidth / 2;
+            let mouseY = window.innerHeight / 2;
+            let mascotX = mouseX;
+            let mascotY = mouseY;
+            let currentSection = '';
+            let isInitialized = false;
+            let trailPoints = [];
+            let animationFrame;
+            
+            function init() {
+                if (isInitialized) return;
+                
+                mascot = document.getElementById('paintMascot');
+                bubble = mascot.querySelector('.mascot-bubble');
+                bubbleText = bubble.querySelector('.bubble-text');
+                canvas = document.getElementById('paintTrailCanvas');
+                ctx = canvas.getContext('2d');
+                
+                resizeCanvas();
+                window.addEventListener('resize', resizeCanvas);
+                
+                document.addEventListener('mousemove', handleMouseMove);
+                
+                observeSections();
+                
+                animate();
+                
+                setTimeout(() => showBubble('default'), 1000);
+                
+                isInitialized = true;
+            }
+            
+            function resizeCanvas() {
+                canvas.width = window.innerWidth;
+                canvas.height = window.innerHeight;
+            }
+            
+            function handleMouseMove(e) {
+                mouseX = e.clientX;
+                mouseY = e.clientY;
+            }
+            
+            function animate() {
+                const dx = mouseX - mascotX;
+                const dy = mouseY - mascotY;
+                
+                mascotX += dx * config.followSpeed;
+                mascotY += dy * config.followSpeed;
+                
+                mascot.style.left = `${mascotX}px`;
+                mascot.style.top = `${mascotY}px`;
+                
+                if (config.trailEnabled && (Math.abs(dx) > 1 || Math.abs(dy) > 1)) {
+                    trailPoints.push({
+                        x: mascotX,
+                        y: mascotY + 60,
+                        alpha: 1,
+                        size: config.trailWidth
+                    });
+                    
+                    if (trailPoints.length > 50) {
+                        trailPoints.shift();
+                    }
+                }
+                
+                drawTrail();
+                
+                const angle = Math.atan2(dy, dx) * (180 / Math.PI);
+                const rotation = Math.max(-30, Math.min(30, angle / 10));
+                mascot.style.transform = `translate(-50%, -50%) rotate(${rotation}deg)`;
+                
+                animationFrame = requestAnimationFrame(animate);
+            }
+            
+            function drawTrail() {
+                ctx.fillStyle = 'rgba(255, 255, 255, 0.1)';
+                if (document.documentElement.getAttribute('data-theme') === 'dark') {
+                    ctx.fillStyle = 'rgba(13, 17, 23, 0.1)';
+                }
+                ctx.fillRect(0, 0, canvas.width, canvas.height);
+                
+                trailPoints.forEach((point, index) => {
+                    point.alpha -= config.trailFadeSpeed;
+                    
+                    if (point.alpha > 0) {
+                        ctx.beginPath();
+                        ctx.arc(point.x, point.y, point.size, 0, Math.PI * 2);
+                        ctx.fillStyle = config.trailColor.replace('0.4', point.alpha * 0.4);
+                        ctx.fill();
+                        
+                        if (index > 0) {
+                            const prevPoint = trailPoints[index - 1];
+                            ctx.beginPath();
+                            ctx.moveTo(prevPoint.x, prevPoint.y);
+                            ctx.lineTo(point.x, point.y);
+                            ctx.strokeStyle = config.trailColor.replace('0.4', point.alpha * 0.3);
+                            ctx.lineWidth = point.size;
+                            ctx.lineCap = 'round';
+                            ctx.stroke();
+                        }
+                    }
+                });
+                
+                trailPoints = trailPoints.filter(p => p.alpha > 0);
+            }
+            
+            function showBubble(section) {
+                const message = config.bubbleMessages[section] || config.bubbleMessages.default;
+                bubbleText.textContent = message;
+                bubble.classList.add('show');
+                
+                mascot.classList.add('excited');
+                setTimeout(() => mascot.classList.remove('excited'), 500);
+                
+                setTimeout(() => {
+                    bubble.classList.remove('show');
+                }, 3000);
+            }
+            
+            function observeSections() {
+                const sections = document.querySelectorAll('section, main');
+                
+                const observer = new IntersectionObserver((entries) => {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting && entry.intersectionRatio > 0.3) {
+                            const sectionId = entry.target.id || 'hero';
+                            
+                            if (sectionId !== currentSection) {
+                                currentSection = sectionId;
+                                showBubble(sectionId);
+                                
+                                updateTrailColor(sectionId);
+                                
+                                mascot.classList.add('painting');
+                                setTimeout(() => mascot.classList.remove('painting'), 800);
+                            }
+                        }
+                    });
+                }, {
+                    threshold: [0.3, 0.5, 0.7]
+                });
+                
+                sections.forEach(section => observer.observe(section));
+            }
+            
+            function updateTrailColor(section) {
+                const colors = {
+                    hero: 'rgba(201, 169, 97, 0.4)',
+                    about: 'rgba(230, 200, 139, 0.4)',
+                    artGallery: 'rgba(201, 169, 97, 0.5)',
+                    features: 'rgba(168, 181, 160, 0.4)',
+                    pricing: 'rgba(212, 181, 176, 0.4)',
+                    testimonials: 'rgba(201, 169, 97, 0.4)',
+                    commission: 'rgba(230, 200, 139, 0.4)',
+                    contact: 'rgba(201, 169, 97, 0.5)',
+                    default: 'rgba(201, 169, 97, 0.4)'
+                };
+                
+                config.trailColor = colors[section] || colors.default;
+            }
+            
+            function initGSAPIntegration() {
+                if (typeof gsap !== 'undefined') {
+                    gsap.from(mascot, {
+                        duration: 1.5,
+                        scale: 0,
+                        rotation: 360,
+                        ease: 'elastic.out(1, 0.5)',
+                        delay: 0.5
+                    });
+                    
+                    gsap.to(mascot.querySelector('.mascot-body'), {
+                        duration: 0.6,
+                        y: -10,
+                        ease: 'power1.inOut',
+                        yoyo: true,
+                        repeat: -1,
+                        repeatDelay: 3
+                    });
+                    
+                    const sparkles = mascot.querySelectorAll('.sparkle');
+                    sparkles.forEach((sparkle, index) => {
+                        gsap.to(sparkle, {
+                            duration: 2,
+                            opacity: 1,
+                            y: -40,
+                            scale: 1.5,
+                            ease: 'power2.out',
+                            repeat: -1,
+                            delay: index * 0.7,
+                            onRepeat: function() {
+                                gsap.set(sparkle, { opacity: 0, y: 0, scale: 0 });
+                            }
+                        });
+                    });
+                }
+            }
+            
+            mascot.addEventListener('click', () => {
+                showBubble(currentSection || 'default');
+                
+                createPaintSplash(mascotX, mascotY);
+                
+                if (typeof gsap !== 'undefined') {
+                    gsap.to(mascot, {
+                        duration: 0.3,
+                        scale: 1.2,
+                        ease: 'back.out(3)',
+                        yoyo: true,
+                        repeat: 1
+                    });
+                }
+            });
+            
+            function createPaintSplash(x, y) {
+                for (let i = 0; i < 12; i++) {
+                    const angle = (Math.PI * 2 * i) / 12;
+                    const distance = 30 + Math.random() * 20;
+                    
+                    trailPoints.push({
+                        x: x + Math.cos(angle) * distance,
+                        y: y + Math.sin(angle) * distance,
+                        alpha: 1,
+                        size: 4 + Math.random() * 3
+                    });
+                }
+            }
+            
+            if (document.readyState === 'loading') {
+                document.addEventListener('DOMContentLoaded', () => {
+                    setTimeout(init, 500);
+                    setTimeout(initGSAPIntegration, 1000);
+                });
+            } else {
+                setTimeout(init, 500);
+                setTimeout(initGSAPIntegration, 1000);
+            }
+            
+            window.addEventListener('beforeunload', () => {
+                if (animationFrame) {
+                    cancelAnimationFrame(animationFrame);
+                }
+            });
+            
+        })();
     </script>
 </body>
 </html>
